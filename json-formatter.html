@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter &amp; Validator — Free Online DevTool</title>
+  <meta name="description" content="Free online JSON formatter and validator. Format, beautify, minify, and validate JSON data instantly. Error detection with line numbers. No upload required.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/json-formatter.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JSON Formatter & Validator",
+    "description": "Format, validate, beautify, and minify JSON data with syntax error detection.",
+    "url": "https://fulankizao.github.io/devtools/json-formatter.html",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/devtools/" class="logo">Dev<span>Tools</span></a>
+      <nav>
+        <a href="index.html">All Tools</a>
+        <a href="https://fulankizao.github.io/selfhost-guide/">Self-Host Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tool-page">
+    <h1>JSON Formatter &amp; Validator</h1>
+    <p class="subtitle">Format, beautify, validate, and minify JSON. All processing happens in your browser — nothing is uploaded.</p>
+
+    <div class="tool-box">
+      <label for="json-input">JSON Input</label>
+      <textarea id="json-input" class="code-input" placeholder='Paste your JSON here, e.g. {"key":"value"}'></textarea>
+
+      <div class="options-row">
+        <label><input type="checkbox" id="sort-keys" checked> Sort keys alphabetically</label>
+        <label><input type="checkbox" id="strip-trailing"> Strip trailing commas</label>
+      </div>
+
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="formatJSON()">Format / Beautify</button>
+        <button class="btn" onclick="minifyJSON()">Minify</button>
+        <button class="btn" onclick="validateJSON()">Validate</button>
+        <button class="btn btn-danger" onclick="clearJSON()">Clear</button>
+      </div>
+
+      <label for="json-output">Output</label>
+      <div id="json-output" class="output-box">Waiting for input...</div>
+      <div class="count-badge" id="json-stats"></div>
+
+      <div class="tool-actions">
+        <button class="btn btn-sm" onclick="copyJSON()">Copy Output</button>
+      </div>
+    </div>
+
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">About JSON Formatter</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);">This tool validates and formats JSON according to the ECMA-404 standard. It detects syntax errors (missing commas, trailing commas, unquoted keys, extra brackets) and reports them with the exact line number. The formatter uses 2-space indentation for readability.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script>
+  function getInput() { return document.getElementById('json-input'); }
+  function getOutput() { return document.getElementById('json-output'); }
+  function getStats() { return document.getElementById('json-stats'); }
+
+  function formatJSON() {
+    const input = getInput().value.trim();
+    if (!input) { getOutput().textContent = 'Please enter JSON data.'; getOutput().className = 'output-box'; return; }
+    try {
+      let obj = JSON.parse(input);
+      if (document.getElementById('sort-keys').checked) {
+        obj = sortObjectKeys(obj);
+      }
+      getOutput().textContent = JSON.stringify(obj, null, 2);
+      getOutput().className = 'output-box';
+      const lines = getOutput().textContent.split('\n').length;
+      const chars = getOutput().textContent.length;
+      getStats().textContent = lines + ' lines · ' + chars + ' chars';
+    } catch (e) {
+      const match = e.message.match(/position\s+(\d+)/);
+      let msg = e.message;
+      if (match) {
+        const pos = parseInt(match[1]);
+        const lines = input.slice(0, pos).split('\n');
+        msg += ' (line ' + lines.length + ', column ' + (lines[lines.length-1].length + 1) + ')';
+      }
+      getOutput().textContent = 'Error: ' + msg;
+      getOutput().className = 'output-box error';
+      getStats().textContent = '';
+    }
+  }
+
+  function minifyJSON() {
+    const input = getInput().value.trim();
+    if (!input) { getOutput().textContent = 'Please enter JSON data.'; getOutput().className = 'output-box'; return; }
+    try {
+      const obj = JSON.parse(input);
+      getOutput().textContent = JSON.stringify(obj);
+      getOutput().className = 'output-box';
+      const chars = getOutput().textContent.length;
+      getStats().textContent = chars + ' chars (minified)';
+    } catch (e) {
+      getOutput().textContent = 'Error: ' + e.message;
+      getOutput().className = 'output-box error';
+      getStats().textContent = '';
+    }
+  }
+
+  function validateJSON() {
+    const input = getInput().value.trim();
+    if (!input) { getOutput().textContent = 'Please enter JSON data.'; getOutput().className = 'output-box'; return; }
+    try {
+      JSON.parse(input);
+      getOutput().textContent = '✓ Valid JSON';
+      getOutput().className = 'output-box';
+      getStats().textContent = '';
+    } catch (e) {
+      getOutput().textContent = '✗ Invalid JSON\n\n' + e.message;
+      getOutput().className = 'output-box error';
+      getStats().textContent = '';
+    }
+  }
+
+  function clearJSON() {
+    getInput().value = '';
+    getOutput().textContent = 'Waiting for input...';
+    getOutput().className = 'output-box';
+    getStats().textContent = '';
+  }
+
+  function copyJSON() {
+    const text = getOutput().textContent;
+    if (!text || text === 'Waiting for input...') return;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.btn-sm');
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+
+  function sortObjectKeys(obj) {
+    if (Array.isArray(obj)) return obj.map(sortObjectKeys);
+    if (obj !== null && typeof obj === 'object') {
+      return Object.keys(obj).sort().reduce((acc, key) => {
+        acc[key] = sortObjectKeys(obj[key]);
+        return acc;
+      }, {});
+    }
+    return obj;
+  }
+  </script>
+</body>
+</html>

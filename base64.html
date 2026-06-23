@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encoder / Decoder — Free Online DevTool</title>
+  <meta name="description" content="Free online Base64 encoder and decoder. Encode text to Base64, decode Base64 back to text. Supports UTF-8, ASCII, and file encoding. No upload required.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/base64.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Base64 Encoder / Decoder",
+    "description": "Encode text to Base64 and decode Base64 back to readable text.",
+    "url": "https://fulankizao.github.io/devtools/base64.html",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/devtools/" class="logo">Dev<span>Tools</span></a>
+      <nav>
+        <a href="index.html">All Tools</a>
+        <a href="https://fulankizao.github.io/selfhost-guide/">Self-Host Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tool-page">
+    <h1>Base64 Encoder / Decoder</h1>
+    <p class="subtitle">Encode text to Base64 or decode Base64 back to readable text. All processing happens in your browser.</p>
+
+    <div class="tool-box">
+      <label for="base64-mode">Mode</label>
+      <select id="base64-mode" onchange="toggleBase64Mode()">
+        <option value="encode">Encode → Base64</option>
+        <option value="decode">Decode → Text</option>
+      </select>
+    </div>
+
+    <div class="tool-box" id="encode-box">
+      <label for="base64-input">Input Text</label>
+      <textarea id="base64-input" class="code-input" placeholder="Enter text to encode to Base64..."></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="processBase64()">Encode to Base64</button>
+        <button class="btn btn-danger" onclick="clearBase64()">Clear</button>
+      </div>
+      <label>Base64 Output</label>
+      <div id="base64-output" class="output-box">Waiting for input...</div>
+      <div class="tool-actions">
+        <button class="btn btn-sm" onclick="copyBase64()">Copy Output</button>
+      </div>
+    </div>
+
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">About Base64</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);">Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. It is commonly used for embedding images in HTML/CSS, encoding email attachments (MIME), and transmitting data in JSON APIs. The encoded output is approximately 33% larger than the original input.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script>
+  function toggleBase64Mode() {
+    const mode = document.getElementById('base64-mode').value;
+    const btn = document.querySelector('#encode-box .btn-primary');
+    const label = document.querySelector('#encode-box label');
+    if (mode === 'encode') {
+      btn.textContent = 'Encode to Base64';
+    } else {
+      btn.textContent = 'Decode from Base64';
+    }
+    clearBase64();
+  }
+
+  function processBase64() {
+    const input = document.getElementById('base64-input').value;
+    const mode = document.getElementById('base64-mode').value;
+    const output = document.getElementById('base64-output');
+
+    if (!input.trim()) {
+      output.textContent = 'Please enter input.';
+      output.className = 'output-box';
+      return;
+    }
+
+    try {
+      if (mode === 'encode') {
+        const encoded = btoa(unescape(encodeURIComponent(input)));
+        output.textContent = encoded;
+        output.className = 'output-box';
+        document.querySelector('#encode-box .count-badge')?.remove();
+        const badge = document.createElement('div');
+        badge.className = 'count-badge';
+        badge.textContent = encoded.length + ' chars (input: ' + input.length + ' chars)';
+        output.parentNode.appendChild(badge);
+      } else {
+        const decoded = decodeURIComponent(escape(atob(input)));
+        output.textContent = decoded;
+        output.className = 'output-box';
+        document.querySelector('#encode-box .count-badge')?.remove();
+        const badge = document.createElement('div');
+        badge.className = 'count-badge';
+        badge.textContent = decoded.length + ' chars (decoded)';
+        output.parentNode.appendChild(badge);
+      }
+    } catch (e) {
+      output.textContent = 'Error: ' + e.message;
+      output.className = 'output-box error';
+      document.querySelector('#encode-box .count-badge')?.remove();
+    }
+  }
+
+  function clearBase64() {
+    document.getElementById('base64-input').value = '';
+    document.getElementById('base64-output').textContent = 'Waiting for input...';
+    document.getElementById('base64-output').className = 'output-box';
+    document.querySelector('#encode-box .count-badge')?.remove();
+  }
+
+  function copyBase64() {
+    const text = document.getElementById('base64-output').textContent;
+    if (!text || text === 'Waiting for input...') return;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('#encode-box .btn-sm');
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regex Tester — Free Online DevTool</title>
+  <meta name="description" content="Free online regex tester with real-time matching. Test regular expressions against sample text. Supports flags, multi-line, and replace. No upload required.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/regex-tester.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Regex Tester",
+    "description": "Test regular expressions in real-time with highlighting and match details.",
+    "url": "https://fulankizao.github.io/devtools/regex-tester.html",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/devtools/" class="logo">Dev<span>Tools</span></a>
+      <nav>
+        <a href="index.html">All Tools</a>
+        <a href="https://fulankizao.github.io/selfhost-guide/">Self-Host Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tool-page">
+    <h1>Regex Tester</h1>
+    <p class="subtitle">Test regular expressions against your text in real-time. Supports all standard regex flags.</p>
+
+    <div class="tool-box">
+      <label for="regex-pattern">Regular Expression</label>
+      <input type="text" id="regex-pattern" placeholder="/your-regex/flags" oninput="testRegex()" style="font-family:var(--mono)">
+
+      <div class="options-row" style="margin-top:8px;">
+        <label><input type="checkbox" id="flag-g" checked onchange="testRegex()"> g (global)</label>
+        <label><input type="checkbox" id="flag-i" onchange="testRegex()"> i (case-insensitive)</label>
+        <label><input type="checkbox" id="flag-m" onchange="testRegex()"> m (multi-line)</label>
+        <label><input type="checkbox" id="flag-s" onchange="testRegex()"> s (dot-all)</label>
+        <label><input type="checkbox" id="flag-u" onchange="testRegex()"> u (unicode)</label>
+      </div>
+    </div>
+
+    <div class="tool-box">
+      <label for="regex-text">Test String</label>
+      <textarea id="regex-text" class="code-input" placeholder="Enter text to test the regex against..." oninput="testRegex()"></textarea>
+    </div>
+
+    <div class="tool-box">
+      <label>Results</label>
+      <div id="regex-results" class="output-box">Enter a regex and test string to see results...</div>
+      <div class="count-badge" id="regex-stats"></div>
+    </div>
+
+    <div class="tool-box" id="replace-box">
+      <label for="regex-replace">Replace With (optional)</label>
+      <input type="text" id="regex-replace" placeholder="$1, $&, replacement text..." oninput="testRegex()" style="font-family:var(--mono)">
+      <div class="output-box" id="regex-replaced-output">Replace result will appear here...</div>
+    </div>
+
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">About Regex Tester</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);">This tool uses JavaScript's RegExp engine (ECMAScript 2022). Common patterns: <code>\d</code> (digits), <code>\w</code> (word chars), <code>\s</code> (whitespace), <code>.*</code> (any), <code>[a-z]</code> (range), <code>(group)</code> (capture), <code>\1</code> (backreference). Supports <code>$1</code>, <code>$&amp;</code>, <code>$`</code>, <code>$'</code> in replace patterns.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script>
+  function testRegex() {
+    const pattern = document.getElementById('regex-pattern').value.trim();
+    const text = document.getElementById('regex-text').value;
+    const results = document.getElementById('regex-results');
+    const stats = document.getElementById('regex-stats');
+    const replaceOutput = document.getElementById('regex-replaced-output');
+
+    if (!pattern || !text) {
+      results.textContent = 'Enter a regex and test string to see results...';
+      results.className = 'output-box';
+      stats.textContent = '';
+      replaceOutput.textContent = 'Replace result will appear here...';
+      return;
+    }
+
+    try {
+      // Build flags
+      let flags = '';
+      if (document.getElementById('flag-g').checked) flags += 'g';
+      if (document.getElementById('flag-i').checked) flags += 'i';
+      if (document.getElementById('flag-m').checked) flags += 'm';
+      if (document.getElementById('flag-s').checked) flags += 's';
+      if (document.getElementById('flag-u').checked) flags += 'u';
+
+      // Remove leading/trailing slashes if present
+      let clean = pattern;
+      if (clean.startsWith('/') && clean.length > 1) {
+        const lastSlash = clean.lastIndexOf('/');
+        if (lastSlash > 0) {
+          clean = clean.slice(1, lastSlash);
+        }
+      }
+
+      const regex = new RegExp(clean, flags);
+      const matches = [];
+      let match;
+      // Reset lastIndex for global
+      regex.lastIndex = 0;
+      let count = 0;
+      while ((match = regex.exec(text)) !== null) {
+        count++;
+        const pos = match.index;
+        const lineNum = text.slice(0, pos).split('\n').length;
+        const colNum = pos - text.lastIndexOf('\n', pos);
+        let groups = '';
+        if (match.length > 1) {
+          groups = ' — groups: [' + Array.from({length: match.length - 1}, (_, i) => match[i+1]).join(', ') + ']';
+        }
+        matches.push('Match #' + count + ' at line ' + lineNum + ', col ' + colNum + ': "' + match[0].slice(0, 100) + '"' + groups);
+        if (count > 200) {
+          matches.push('... showing first 200 matches');
+          break;
+        }
+        if (!regex.global) break;
+      }
+
+      if (count > 0) {
+        results.textContent = matches.join('\n');
+        results.className = 'output-box';
+        stats.textContent = count + ' match' + (count > 1 ? 'es' : '') + ' found';
+      } else {
+        results.textContent = 'No matches found.';
+        results.className = 'output-box';
+        stats.textContent = '';
+      }
+
+      // Replace
+      const replaceVal = document.getElementById('regex-replace').value;
+      if (replaceVal && flags.includes('g') || !flags.includes('g')) {
+        try {
+          // Recreate regex with g for replace
+          const replaceRegex = flags.includes('g') ? new RegExp(clean, flags) : new RegExp(clean, 'g' + flags.replace('g', ''));
+          const replaced = text.replace(replaceRegex, replaceVal);
+          replaceOutput.textContent = replaced;
+          if (replaced === text) {
+            replaceOutput.textContent = '(no replacements made — pattern did not match)';
+          } else {
+            replaceOutput.textContent = replaced;
+          }
+        } catch (e) {
+          replaceOutput.textContent = 'Replace error: ' + e.message;
+        }
+      } else {
+        replaceOutput.textContent = '(enable global flag g for replace)';
+      }
+    } catch (e) {
+      results.textContent = 'Regex error: ' + e.message;
+      results.className = 'output-box error';
+      stats.textContent = '';
+      replaceOutput.textContent = '';
+    }
+  }
+  </script>
+</body>
+</html>

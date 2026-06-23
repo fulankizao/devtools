@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timestamp Converter — Free Online DevTool</title>
+  <meta name="description" content="Free online Unix timestamp converter. Convert timestamps to human-readable dates and dates to timestamps. Supports seconds and milliseconds.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/timestamp.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Timestamp Converter",
+    "description": "Convert Unix timestamps to readable dates and vice versa.",
+    "url": "https://fulankizao.github.io/devtools/timestamp.html",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/devtools/" class="logo">Dev<span>Tools</span></a>
+      <nav>
+        <a href="index.html">All Tools</a>
+        <a href="https://fulankizao.github.io/selfhost-guide/">Self-Host Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tool-page">
+    <h1>Timestamp Converter</h1>
+    <p class="subtitle">Convert Unix timestamps to human-readable dates and dates back to timestamps. Supports both seconds and milliseconds.</p>
+
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:12px;">Current Time</h3>
+      <div id="current-time" class="output-box" style="min-height:auto;">Loading...</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div class="tool-box">
+        <h3 style="font-size:1rem;margin-bottom:8px;">Timestamp → Date</h3>
+        <label for="ts-input">Unix Timestamp</label>
+        <input type="text" id="ts-input" placeholder="e.g. 1734662400 or 1734662400000" oninput="tsToDate()" style="font-family:var(--mono)">
+        <div class="options-row" style="margin-top:8px;">
+          <label><input type="radio" name="ts-unit" value="seconds" checked onchange="tsToDate()"> Seconds</label>
+          <label><input type="radio" name="ts-unit" value="milliseconds" onchange="tsToDate()"> Milliseconds</label>
+        </div>
+        <div id="ts-result" class="output-box" style="min-height:60px;">Enter a timestamp...</div>
+      </div>
+
+      <div class="tool-box">
+        <h3 style="font-size:1rem;margin-bottom:8px;">Date → Timestamp</h3>
+        <label for="date-input">Date &amp; Time</label>
+        <input type="datetime-local" id="date-input" onchange="dateToTs()" style="font-family:var(--mono)">
+        <div class="tool-actions" style="margin-top:8px;">
+          <button class="btn btn-sm" onclick="setNow()">Set to Now</button>
+        </div>
+        <div id="date-result" class="output-box" style="min-height:60px;">Select a date...</div>
+        <div class="count-badge" id="date-stats"></div>
+      </div>
+    </div>
+
+    <div class="tool-box" style="margin-top:16px;">
+      <h3 style="font-size:1rem;margin-bottom:8px;">Common Timestamps</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem;">
+        <div><strong>Epoch (Unix 0):</strong> <code>0</code> → Jan 1, 1970 00:00:00 UTC</div>
+        <div><strong>Y2K:</strong> <code>946684800</code> → Jan 1, 2000 00:00:00 UTC</div>
+        <div><strong>Today (UTC):</strong> <code id="today-ts">...</code></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script>
+  function updateCurrentTime() {
+    const now = new Date();
+    document.getElementById('current-time').textContent = 
+      'Now: ' + now.toLocaleString() + '  |  Timestamp: ' + Math.floor(now.getTime() / 1000) + ' (s)  |  ' + now.getTime() + ' (ms)';
+    document.getElementById('today-ts').textContent = Math.floor(now.getTime() / 1000);
+  }
+
+  function tsToDate() {
+    const input = document.getElementById('ts-input').value.trim();
+    const result = document.getElementById('ts-result');
+    if (!input) { result.textContent = 'Enter a timestamp...'; result.className = 'output-box'; return; }
+
+    const ts = parseFloat(input);
+    if (isNaN(ts)) { result.textContent = 'Invalid number'; result.className = 'output-box error'; return; }
+
+    const isMs = document.querySelector('input[name="ts-unit"]:checked').value === 'milliseconds';
+    const millis = isMs ? ts : ts * 1000;
+
+    const date = new Date(millis);
+    if (isNaN(date.getTime())) { result.textContent = 'Invalid date (out of range)'; result.className = 'output-box error'; return; }
+
+    result.innerHTML = 
+      '<strong>UTC:</strong> ' + date.toUTCString() + '<br>' +
+      '<strong>Local:</strong> ' + date.toLocaleString() + '<br>' +
+      '<strong>ISO 8601:</strong> ' + date.toISOString().replace('Z', '+00:00') + '<br>' +
+      '<strong>Year:</strong> ' + date.getFullYear() + ' — <strong>Month/Day:</strong> ' + (date.getMonth()+1) + '/' + date.getDate() + ' — <strong>Weekday:</strong> ' + ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][date.getDay()];
+    result.className = 'output-box';
+  }
+
+  function dateToTs() {
+    const input = document.getElementById('date-input').value;
+    const result = document.getElementById('date-result');
+    const stats = document.getElementById('date-stats');
+    if (!input) { result.textContent = 'Select a date...'; result.className = 'output-box'; stats.textContent = ''; return; }
+
+    const date = new Date(input);
+    if (isNaN(date.getTime())) { result.textContent = 'Invalid date'; result.className = 'output-box error'; stats.textContent = ''; return; }
+
+    result.innerHTML = 
+      '<strong>Seconds:</strong> ' + Math.floor(date.getTime() / 1000) + '<br>' +
+      '<strong>Milliseconds:</strong> ' + date.getTime() + '<br>';
+    result.className = 'output-box';
+    stats.textContent = 'Converted from ' + date.toLocaleString();
+  }
+
+  function setNow() {
+    const now = new Date();
+    const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    document.getElementById('date-input').value = local.toISOString().slice(0, 16);
+    dateToTs();
+  }
+
+  // Init
+  updateCurrentTime();
+  setInterval(updateCurrentTime, 1000);
+
+  // Set default date to now
+  setTimeout(setNow, 100);
+  </script>
+</body>
+</html>
