@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEX Encoder / Decoder Free Online — DevTools</title>
+  <meta name="description" content="Free online HEX encoder and decoder. Convert text to hexadecimal and hex back to text instantly in your browser. No data uploaded.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/hex.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"HEX Encoder / Decoder","url":"https://fulankizao.github.io/devtools/hex.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/devtools/" class="logo">Dev<span>Tools</span></a>
+      <nav><a href="index.html">All Tools</a></nav>
+    </div>
+  </header>
+  <div class="tool-page">
+    <h1>HEX Encoder / Decoder</h1>
+    <p class="subtitle">Convert text to hexadecimal and hex back to plain text. All processing happens in your browser.</p>
+    <div class="tool-box">
+      <label for="hex-input">Input</label>
+      <textarea id="hex-input" class="code-input" placeholder="Enter text or hex string here..." oninput="autoConvert()"></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="encodeHex()">Encode to HEX</button>
+        <button class="btn btn-secondary" onclick="decodeHex()">Decode from HEX</button>
+        <button class="btn btn-danger" onclick="clearHex()">Clear</button>
+      </div>
+      <label>Output</label>
+      <div id="hex-output" class="output-box" style="font-size:0.8rem;">Enter text or hex string to convert...</div>
+      <div class="tool-actions">
+        <button class="btn btn-sm" onclick="copyHex()">Copy Output</button>
+      </div>
+    </div>
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">About HEX Encoding</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);">Hexadecimal (base-16) encoding represents binary data as a string of two-character groups using digits 0–9 and letters A–F. Each byte (8 bits) is represented by two hex characters. HEX is commonly used in computing for memory addresses, color codes, and data serialization. This tool lets you encode plain text to hex and decode hex strings back to readable text.</p>
+    </div>
+    <div class="related-links-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">Related Tools</h3>
+      <div class="related-links">
+        <a href="md5.html">MD5 Hash Generator</a>
+        <a href="sha256.html">SHA256 Hash</a>
+        <a href="base64.html">Base64 Encode / Decode</a>
+        <a href="hex.html">HEX Encode / Decode</a>
+        <a href="url-encode.html">URL Encode / Decode</a>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="container"><p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p></div>
+  </footer>
+  <script>
+  function encodeHex() {
+    const input = document.getElementById('hex-input').value;
+    const output = document.getElementById('hex-output');
+    if (!input.trim()) { output.textContent = 'Enter text to encode...'; return; }
+    try {
+      const bytes = new TextEncoder().encode(input);
+      const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+      output.textContent = hex;
+    } catch (e) {
+      output.textContent = 'Error: ' + e.message;
+    }
+  }
+
+  function decodeHex() {
+    const input = document.getElementById('hex-input').value;
+    const output = document.getElementById('hex-output');
+    if (!input.trim()) { output.textContent = 'Enter hex string to decode...'; return; }
+    const clean = input.replace(/\s+/g, '');
+    if (!/^[0-9a-fA-F]*$/.test(clean)) {
+      output.textContent = 'Error: Input contains non-hex characters. Only 0-9 and A-F allowed.';
+      return;
+    }
+    if (clean.length % 2 !== 0) {
+      output.textContent = 'Error: Hex string length must be even (odd number of hex characters).';
+      return;
+    }
+    try {
+      const bytes = new Uint8Array(clean.match(/.{1,2}/g).map(b => parseInt(b, 16)));
+      const text = new TextDecoder().decode(bytes);
+      output.textContent = text;
+    } catch (e) {
+      output.textContent = 'Error: ' + e.message;
+    }
+  }
+
+  function autoConvert() {
+    // Detect if input looks like hex and auto-decode, else auto-encode
+    const input = document.getElementById('hex-input').value.trim();
+    if (!input) { document.getElementById('hex-output').textContent = 'Enter text or hex string to convert...'; return; }
+    const clean = input.replace(/\s+/g, '');
+    if (clean.length >= 2 && /^[0-9a-fA-F\s]*$/.test(clean) && clean.length % 2 === 0) {
+      decodeHex();
+    } else {
+      encodeHex();
+    }
+  }
+
+  function clearHex() {
+    document.getElementById('hex-input').value = '';
+    document.getElementById('hex-output').textContent = 'Enter text or hex string to convert...';
+  }
+
+  function copyHex() {
+    const text = document.getElementById('hex-output').textContent;
+    if (!text || text.startsWith('Enter') || text.startsWith('Error')) return;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.btn-sm');
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+  </script>
+</body>
+</html>

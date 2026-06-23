@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Entity Encoder / Decoder — Free Online DevTool</title>
+  <meta name="description" content="Free online HTML entity encoder and decoder. Encode special characters for HTML and decode HTML entities back to text.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/html-encode.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HTML Entity Encoder/Decoder","url":"https://fulankizao.github.io/devtools/html-encode.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}</script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+  <div class="tool-page">
+    <h1>HTML Entity Encoder / Decoder</h1>
+    <p class="subtitle">Escape HTML special characters for safe embedding, or decode entities back to readable text.</p>
+    <div class="tool-box">
+      <label for="html-mode">Mode</label>
+      <select id="html-mode" onchange="toggleHTML()">
+        <option value="encode">Encode → HTML Entities</option>
+        <option value="decode">Decode → Text</option>
+      </select>
+    </div>
+    <div class="tool-box">
+      <label for="html-input">Input</label>
+      <textarea id="html-input" class="code-input" placeholder="Enter text to encode or decode..."></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="processHTML()">Process</button>
+        <button class="btn btn-danger" onclick="clearHTML()">Clear</button>
+      </div>
+      <label>Output</label>
+      <div id="html-output" class="output-box">Waiting for input...</div>
+      <div class="tool-actions">
+        <button class="btn btn-sm" onclick="copyHTML()">Copy Output</button>
+      </div>
+    </div>
+    <div class="related-links-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">Related Tools</h3>
+      <div class="related-links">
+        <a href="url-encode.html">URL Encoder / Decoder</a>
+        <a href="base64.html">Base64 Encode / Decode</a>
+        <a href="hex.html">HEX Encode / Decode</a>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+  <script>
+  function toggleHTML() { clearHTML(); }
+  function processHTML() {
+    const input = document.getElementById('html-input').value;
+    const mode = document.getElementById('html-mode').value;
+    const output = document.getElementById('html-output');
+    if (!input.trim()) { output.textContent = 'Please enter input.'; return; }
+    try {
+      if (mode === 'encode') {
+        output.textContent = input.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      } else {
+        var txt = document.createElement('textarea');
+        txt.innerHTML = input;
+        output.textContent = txt.value;
+      }
+      output.className = 'output-box';
+    } catch(e) { output.textContent = 'Error: ' + e.message; output.className = 'output-box error'; }
+  }
+  function clearHTML() { document.getElementById('html-input').value=''; document.getElementById('html-output').textContent='Waiting for input...'; document.getElementById('html-output').className='output-box'; }
+  function copyHTML() { var t=document.getElementById('html-output').textContent; if(t&&t!='Waiting for input...'){navigator.clipboard.writeText(t).then(function(){var b=document.querySelector('.btn-sm');var o=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=o},1500);});} }
+  </script>
+</body>
+</html>

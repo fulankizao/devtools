@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder / Decoder Tool — Free Online DevTool</title>
+  <meta name="description" content="Encode or decode URL strings online. Convert text to URL-encoded format or decode URL-encoded strings back to plain text. Free, no upload required.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/url-encode.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"URL Encoder/Decoder Tool","url":"https://fulankizao.github.io/devtools/url-encode.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/devtools/" class="logo">Dev<span>Tools</span></a>
+      <nav><a href="index.html">All Tools</a></nav>
+    </div>
+  </header>
+  <div class="tool-page">
+    <h1>URL Encoder / Decoder</h1>
+    <p class="subtitle">Encode or decode URL strings using JavaScript's <code>encodeURIComponent</code> and <code>decodeURIComponent</code>. All processing happens in your browser.</p>
+    <div class="tool-box">
+      <label for="url-mode">Mode</label>
+      <select id="url-mode" class="code-input" onchange="processURL()" style="margin-bottom:12px;">
+        <option value="encode">Encode</option>
+        <option value="decode">Decode</option>
+      </select>
+      <label for="url-input">Input Text</label>
+      <textarea id="url-input" class="code-input" placeholder="Enter text to encode or decode..." oninput="processURL()"></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="processURL()">Process</button>
+        <button class="btn btn-danger" onclick="clearURL()">Clear</button>
+      </div>
+      <label>Output</label>
+      <div id="url-output" class="output-box" style="word-break:break-all;">Enter text to process...</div>
+      <div class="tool-actions">
+        <button class="btn btn-sm" onclick="copyURL()">Copy Output</button>
+      </div>
+    </div>
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">About URL Encoding</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);">URL encoding (percent-encoding) converts characters that are not allowed in URLs into a format that can be transmitted safely. Reserved characters, unsafe ASCII characters, and non-ASCII characters are replaced with a "%" followed by two hexadecimal digits. This tool uses <code>encodeURIComponent</code> and <code>decodeURIComponent</code> which encode/decode the full URI component including special characters like <code>&</code>, <code>?</code>, and <code>=</code>.</p>
+    </div>
+    <div class="related-links-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">Related Tools</h3>
+      <div class="related-links">
+        <a href="sha256.html">SHA256 Hash</a>
+        <a href="base64.html">Base64 Encode / Decode</a>
+        <a href="hex.html">HEX Encode / Decode</a>
+        <a href="html-encode.html">HTML Encode / Decode</a>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="container"><p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p></div>
+  </footer>
+  <script>
+  function processURL() {
+    const mode = document.getElementById('url-mode').value;
+    const input = document.getElementById('url-input').value;
+    const output = document.getElementById('url-output');
+    if (!input.trim()) { output.textContent = 'Enter text to process...'; return; }
+    try {
+      if (mode === 'encode') {
+        output.textContent = encodeURIComponent(input);
+      } else {
+        output.textContent = decodeURIComponent(input);
+      }
+    } catch (e) {
+      output.textContent = 'Error: ' + e.message;
+    }
+  }
+  function clearURL() {
+    document.getElementById('url-input').value = '';
+    document.getElementById('url-output').textContent = 'Enter text to process...';
+  }
+  function copyURL() {
+    const text = document.getElementById('url-output').textContent;
+    if (!text || text.startsWith('Enter') || text.startsWith('Error')) return;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.btn-sm');
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+  </script>
+</body>
+</html>

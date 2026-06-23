@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MD5 Hash Generator — Free Online DevTool</title>
+  <meta name="description" content="Generate MD5 hash online. Compute MD5 checksum for any text input. Free, no upload required, runs in your browser.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/md5.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"MD5 Hash Generator","url":"https://fulankizao.github.io/devtools/md5.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/devtools/" class="logo">Dev<span>Tools</span></a>
+      <nav><a href="index.html">All Tools</a></nav>
+    </div>
+  </header>
+  <div class="tool-page">
+    <h1>MD5 Hash Generator</h1>
+    <p class="subtitle">Compute the MD5 hash of any text. All processing happens in your browser — nothing is sent to a server.</p>
+    <div class="tool-box">
+      <label for="md5-input">Input Text</label>
+      <textarea id="md5-input" class="code-input" placeholder="Enter text to hash..." oninput="generateMD5()"></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="generateMD5()">Generate MD5</button>
+        <button class="btn btn-danger" onclick="clearMD5()">Clear</button>
+      </div>
+      <label>MD5 Hash</label>
+      <div id="md5-output" class="output-box" style="font-size:0.8rem;">Enter text to generate hash...</div>
+      <div class="tool-actions">
+        <button class="btn btn-sm" onclick="copyMD5()">Copy Hash</button>
+      </div>
+    </div>
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">About MD5</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);">MD5 (Message Digest Algorithm 5) is a widely used cryptographic hash function that produces a 128-bit (32-character) hexadecimal hash value. While MD5 was once popular for checksums and integrity verification, it is considered cryptographically broken and unsuitable for security-sensitive applications. It remains useful for non-critical file checksums, deduplication, and legacy system compatibility.</p>
+    </div>
+    <div class="related-links-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">Related Tools</h3>
+      <div class="related-links">
+        <a href="sha256.html">SHA256 Hash Generator</a>
+        <a href="base64.html">Base64 Encode / Decode</a>
+        <a href="hex.html">HEX Encode / Decode</a>
+        <a href="url-encode.html">URL Encode / Decode</a>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="container"><p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p></div>
+  </footer>
+  <script>
+    /*
+     * JavaScript MD5 implementation
+     * Based on the well-known public-domain algorithm by Paul Johnston.
+     * https://pajhome.org.uk/crypt/md5/
+     */
+    function md5(input) {
+      function binl2hex(bin) {
+        var hex = '';
+        for (var i = 0; i < bin.length * 4; i++) {
+          var c = (bin[i >> 2] >> ((i % 4) * 8 + 4)) & 0xF;
+          var d = (bin[i >> 2] >> ((i % 4) * 8)) & 0xF;
+          hex += c.toString(16) + d.toString(16);
+        }
+        return hex;
+      }
+      function coreMD5(x) {
+        var a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
+        for (var i = 0; i < x.length; i += 16) {
+          var olda = a, oldb = b, oldc = c, oldd = d;
+          var A = a, B = b, C = c, D = d;
+          function F(X, Y, Z) { return (X & Y) | (~X & Z); }
+          function G(X, Y, Z) { return (X & Z) | (Y & ~Z); }
+          function H(X, Y, Z) { return X ^ Y ^ Z; }
+          function I(X, Y, Z) { return Y ^ (X | ~Z); }
+          function FF(AA, BB, CC, DD, k, s, t) {
+            AA += F(BB, CC, DD) + x[i + k] + t;
+            AA = (AA << s) | (AA >>> (32 - s));
+            return AA + BB;
+          }
+          function GG(AA, BB, CC, DD, k, s, t) {
+            AA += G(BB, CC, DD) + x[i + k] + t;
+            AA = (AA << s) | (AA >>> (32 - s));
+            return AA + BB;
+          }
+          function HH(AA, BB, CC, DD, k, s, t) {
+            AA += H(BB, CC, DD) + x[i + k] + t;
+            AA = (AA << s) | (AA >>> (32 - s));
+            return AA + BB;
+          }
+          function II(AA, BB, CC, DD, k, s, t) {
+            AA += I(BB, CC, DD) + x[i + k] + t;
+            AA = (AA << s) | (AA >>> (32 - s));
+            return AA + BB;
+          }
+          a = FF(a, b, c, d, 0, 7, -680876936);      d = FF(d, a, b, c, 1, 12, -389564586);
+          c = FF(c, d, a, b, 2, 17, 606105819);       b = FF(b, c, d, a, 3, 22, -1044525330);
+          a = FF(a, b, c, d, 4, 7, -176418897);       d = FF(d, a, b, c, 5, 12, 1200080426);
+          c = FF(c, d, a, b, 6, 17, -1473231341);     b = FF(b, c, d, a, 7, 22, -45705983);
+          a = FF(a, b, c, d, 8, 7, 1770035416);       d = FF(d, a, b, c, 9, 12, -1958414417);
+          c = FF(c, d, a, b, 10, 17, -42063);          b = FF(b, c, d, a, 11, 22, -1990404162);
+          a = FF(a, b, c, d, 12, 7, 1804603682);       d = FF(d, a, b, c, 13, 12, -40341101);
+          c = FF(c, d, a, b, 14, 17, -1502002290);     b = FF(b, c, d, a, 15, 22, 1236535329);
+          a = GG(a, b, c, d, 1, 5, -165796510);        d = GG(d, a, b, c, 6, 9, -1069501632);
+          c = GG(c, d, a, b, 11, 14, 643717713);       b = GG(b, c, d, a, 0, 20, -373897302);
+          a = GG(a, b, c, d, 5, 5, -701558691);        d = GG(d, a, b, c, 10, 9, 38016083);
+          c = GG(c, d, a, b, 15, 14, -660478335);      b = GG(b, c, d, a, 4, 20, -405537848);
+          a = GG(a, b, c, d, 9, 5, 568446438);         d = GG(d, a, b, c, 14, 9, -1019803690);
+          c = GG(c, d, a, b, 3, 14, -187363961);       b = GG(b, c, d, a, 8, 20, 1163531501);
+          a = GG(a, b, c, d, 13, 5, -1444681467);       d = GG(d, a, b, c, 2, 9, -51403784);
+          c = GG(c, d, a, b, 7, 14, 1735328473);       b = GG(b, c, d, a, 12, 20, -1926607734);
+          a = HH(a, b, c, d, 5, 4, -378558);           d = HH(d, a, b, c, 8, 11, -2022574463);
+          c = HH(c, d, a, b, 11, 16, 1839030562);      b = HH(b, c, d, a, 14, 23, -35309556);
+          a = HH(a, b, c, d, 1, 4, -1530992060);       d = HH(d, a, b, c, 4, 11, 1272893353);
+          c = HH(c, d, a, b, 7, 16, -155497632);       b = HH(b, c, d, a, 10, 23, -1094730640);
+          a = HH(a, b, c, d, 13, 4, 681279174);        d = HH(d, a, b, c, 0, 11, -358537222);
+          c = HH(c, d, a, b, 3, 16, -722521979);       b = HH(b, c, d, a, 6, 23, 76029189);
+          a = HH(a, b, c, d, 9, 4, -640364487);        d = HH(d, a, b, c, 12, 11, -421815835);
+          c = HH(c, d, a, b, 15, 16, 530742520);       b = HH(b, c, d, a, 2, 23, -995338651);
+          a = II(a, b, c, d, 0, 6, -198630844);        d = II(d, a, b, c, 7, 10, 1126891415);
+          c = II(c, d, a, b, 14, 15, -1416354905);     b = II(b, c, d, a, 5, 21, -57434055);
+          a = II(a, b, c, d, 12, 6, 1700485571);       d = II(d, a, b, c, 3, 10, -1894986606);
+          c = II(c, d, a, b, 10, 15, -1051523);        b = II(b, c, d, a, 1, 21, -2054922799);
+          a = II(a, b, c, d, 8, 6, 1873313359);        d = II(d, a, b, c, 15, 10, -30611744);
+          c = II(c, d, a, b, 6, 15, -1560198380);      b = II(b, c, d, a, 13, 21, 1309151649);
+          a = II(a, b, c, d, 4, 6, -145523070);        d = II(d, a, b, c, 11, 10, -1120210379);
+          c = II(c, d, a, b, 2, 15, 718787259);        b = II(b, c, d, a, 9, 21, -343485551);
+          a = a + olda; b = b + oldb; c = c + oldc; d = d + oldd;
+        }
+        return [a, b, c, d];
+      }
+      function str2binl(str) {
+        var bin = [];
+        for (var i = 0; i < str.length * 8; i += 8) {
+          bin[i >> 5] |= (str.charCodeAt(i / 8) & 0xFF) << (i % 32);
+        }
+        return bin;
+      }
+      function safeAdd(x, y) { return (x + y) | 0; }
+      var encoded = '';
+      for (var i = 0; i < input.length; i++) {
+        var cc = input.charCodeAt(i);
+        if (cc < 0x80) { encoded += String.fromCharCode(cc); }
+        else if (cc < 0x800) { encoded += String.fromCharCode(0xC0 | (cc >> 6), 0x80 | (cc & 0x3F)); }
+        else { encoded += String.fromCharCode(0xE0 | (cc >> 12), 0x80 | ((cc >> 6) & 0x3F), 0x80 | (cc & 0x3F)); }
+      }
+      var bin = str2binl(encoded);
+      bin[input.length * 8 >> 5] |= 0x80 << ((input.length * 8) % 32);
+      bin[((input.length * 8 + 64) >>> 9 << 4) + 14] = input.length * 8;
+      var hash = coreMD5(bin);
+      return binl2hex(hash);
+    }
+
+    function generateMD5() {
+      var input = document.getElementById('md5-input').value;
+      var output = document.getElementById('md5-output');
+      if (!input.trim()) { output.textContent = 'Enter text to generate hash...'; return; }
+      var hash = md5(input);
+      output.textContent = hash;
+    }
+    function clearMD5() {
+      document.getElementById('md5-input').value = '';
+      document.getElementById('md5-output').textContent = 'Enter text to generate hash...';
+    }
+    function copyMD5() {
+      var text = document.getElementById('md5-output').textContent;
+      if (!text || text.startsWith('Enter')) return;
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = document.querySelector('.btn-sm');
+        var orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>
