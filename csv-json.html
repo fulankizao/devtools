@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV ↔ JSON Converter — Free Online DevTool</title>
+  <meta name="description" content="Free online CSV to JSON converter and JSON to CSV converter. Supports comma, tab, and custom delimiters. No upload required.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/csv-json.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"CSV to JSON Converter","url":"https://fulankizao.github.io/devtools/csv-json.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}</script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+  <div class="tool-page">
+    <h1>CSV ↔ JSON Converter</h1>
+    <p class="subtitle">Convert CSV to JSON or JSON to CSV. Supports comma, tab, and custom delimiters. All processing happens in your browser.</p>
+    <div class="tool-box">
+      <div class="options-row">
+        <label>Direction: <select id="csv-direction" onchange="toggleCSV()" style="margin-left:4px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;">
+          <option value="csv2json">CSV → JSON</option>
+          <option value="json2csv">JSON → CSV</option>
+        </select></label>
+        <label>Delimiter: <select id="csv-delimiter" style="margin-left:4px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;">
+          <option value=",">Comma (,)</option>
+          <option value="&#9;">Tab</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="|">Pipe (|)</option>
+        </select></label>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="tool-box">
+        <label for="csv-input">Input</label>
+        <textarea id="csv-input" class="code-input" placeholder="Paste CSV or JSON here..." style="min-height:200px;"></textarea>
+      </div>
+      <div class="tool-box">
+        <label>Output</label>
+        <div id="csv-output" class="output-box" style="min-height:200px;">Waiting for input...</div>
+      </div>
+    </div>
+    <div class="tool-actions" style="padding:0 20px;">
+      <button class="btn btn-primary" onclick="convertCSV()">Convert</button>
+      <button class="btn" onclick="copyCSV()">Copy Output</button>
+      <button class="btn btn-danger" onclick="clearCSV()">Clear</button>
+    </div>
+    <div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.85rem;">
+      <a href="json-formatter.html">JSON Formatter</a><a href="word-counter.html">Word Counter</a><a href="color-converter.html">Color Converter</a>
+    </div></div>
+  </div>
+  <footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+  <script>
+  function toggleCSV(){document.getElementById('csv-input').value='';document.getElementById('csv-output').textContent='Waiting for input...';}
+  function convertCSV(){
+    var input=document.getElementById('csv-input').value.trim();
+    var dir=document.getElementById('csv-direction').value;
+    var delim=document.getElementById('csv-delimiter').value;
+    var output=document.getElementById('csv-output');
+    if(!input){output.textContent='Please enter input.';return;}
+    try{
+      if(dir==='csv2json'){
+        var lines=input.split('\n').filter(Boolean);
+        var headers=lines[0].split(delim).map(function(h){return h.trim()});
+        var result=[];
+        for(var i=1;i<lines.length;i++){
+          var vals=lines[i].split(delim);
+          if(vals.length!==headers.length)continue;
+          var obj={};
+          for(var j=0;j<headers.length;j++)obj[headers[j]]=vals[j].trim();
+          result.push(obj);
+        }
+        output.textContent=JSON.stringify(result,null,2);
+        output.className='output-box';
+      }else{
+        var arr=JSON.parse(input);
+        if(!Array.isArray(arr)||arr.length===0){output.textContent='Error: Input must be a non-empty array.';output.className='output-box error';return;}
+        var headers=Object.keys(arr[0]);
+        var csv=headers.join(delim)+'\n';
+        for(var i=0;i<arr.length;i++){
+          var row=headers.map(function(h){var v=arr[i][h];if(v===null||v===undefined)return '';v=String(v);if(v.includes(delim)||v.includes('"'))v='"'+v.replace(/"/g,'""')+'"';return v;});
+          csv+=row.join(delim)+'\n';
+        }
+        output.textContent=csv;
+        output.className='output-box';
+      }
+    }catch(e){output.textContent='Error: '+e.message;output.className='output-box error';}
+  }
+  function copyCSV(){var t=document.getElementById('csv-output').textContent;if(!t||t.startsWith('Waiting')||t.startsWith('Error'))return;navigator.clipboard.writeText(t).then(function(){var b=document.querySelector('.tool-actions .btn');var o=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=o},1500);});}
+  function clearCSV(){document.getElementById('csv-input').value='';document.getElementById('csv-output').textContent='Waiting for input...';document.getElementById('csv-output').className='output-box';}
+  </script>
+</body>
+</html>

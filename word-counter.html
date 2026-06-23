@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Counter — Free Online DevTool</title>
+  <meta name="description" content="Free online word counter and character counter. Count words, characters, sentences, paragraphs, and reading time for any text.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/word-counter.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Word Counter","url":"https://fulankizao.github.io/devtools/word-counter.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}</script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+  <div class="tool-page">
+    <h1>Word Counter</h1>
+    <p class="subtitle">Count words, characters, sentences, paragraphs, and estimate reading time. All processing is done in your browser.</p>
+    <div class="tool-box">
+      <label for="wc-input">Text</label>
+      <textarea id="wc-input" class="code-input" placeholder="Paste or type your text here..." oninput="countWords()" style="min-height:250px;"></textarea>
+      <div class="tool-actions"><button class="btn btn-danger" onclick="clearWC()">Clear</button></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+      <div class="tool-box" style="text-align:center;"><div style="font-size:2rem;font-weight:700;color:var(--accent);" id="wc-words">0</div><div style="font-size:0.85rem;color:var(--text-muted);">Words</div></div>
+      <div class="tool-box" style="text-align:center;"><div style="font-size:2rem;font-weight:700;color:var(--accent);" id="wc-chars">0</div><div style="font-size:0.85rem;color:var(--text-muted);">Characters</div></div>
+      <div class="tool-box" style="text-align:center;"><div style="font-size:2rem;font-weight:700;color:var(--accent);" id="wc-sentences">0</div><div style="font-size:0.85rem;color:var(--text-muted);">Sentences</div></div>
+      <div class="tool-box" style="text-align:center;"><div style="font-size:2rem;font-weight:700;color:var(--accent);" id="wc-paragraphs">0</div><div style="font-size:0.85rem;color:var(--text-muted);">Paragraphs</div></div>
+    </div>
+    <div class="tool-box" style="text-align:center;">
+      <span style="font-size:0.9rem;color:var(--text-muted);">Reading time: <strong id="wc-readtime">0 min</strong></span>
+    </div>
+    <div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.85rem;">
+      <a href="color-converter.html">Color Converter</a><a href="base64.html">Base64</a><a href="regex-tester.html">Regex Tester</a>
+    </div></div>
+  </div>
+  <footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+  <script>
+  function countWords(){
+    var t=document.getElementById('wc-input').value;
+    document.getElementById('wc-words').textContent=t.trim()?t.trim().split(/\s+/).length:0;
+    document.getElementById('wc-chars').textContent=t.length;
+    document.getElementById('wc-sentences').textContent=t.trim()?t.split(/[.!?]+/).filter(Boolean).length:0;
+    document.getElementById('wc-paragraphs').textContent=t.trim()?t.split(/\n+/).filter(Boolean).length:0;
+    var w=t.trim()?t.trim().split(/\s+/).length:0;
+    document.getElementById('wc-readtime').textContent=Math.max(1,Math.round(w/200))+' min';
+  }
+  function clearWC(){document.getElementById('wc-input').value='';countWords();}
+  </script>
+</body>
+</html>
