@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON Path Tester — Free Online DevTool</title><meta name="description" content="Test JSONPath expressions against JSON data. Query and extract values from JSON using JSONPath syntax.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/json-path.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"JSON Path Tester","url":"https://fulankizao.github.io/devtools/json-path.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>JSON Path Tester</h1><p class="subtitle">Test JSONPath expressions against JSON data. Supports simple dot notation and bracket notation.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="tool-box"><label for="jpi">JSON Data</label><textarea id="jpi" class="code-input" style="min-height:200px;font-size:0.8rem;">{"store":{"book":[{"title":"Book A","price":9.99},{"title":"Book B","price":12.99}],"bicycle":{"color":"red","price":199}}}<br>...</textarea></div>
+<div class="tool-box"><label for="jpp">JSONPath Expression</label><input type="text" id="jpp" value="$.store.book[*].title" oninput="testJPath()" style="font-family:var(--mono);">
+<div class="tool-actions" style="margin-top:8px;"><button class="btn btn-primary" onclick="testJPath()">Test</button><button class="btn btn-danger" onclick="clearJPath()">Clear</button></div>
+<label>Result</label><div id="jpo" class="output-box" style="min-height:120px;font-size:0.8rem;"></div></div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="json-formatter.html">JSON Formatter</a><a href="json-yaml.html">JSON/YAML</a><a href="csv-json.html">CSV/JSON</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function testJPath(){var j=document.getElementById('jpi').value;var p=document.getElementById('jpp').value.trim();var o=document.getElementById('jpo');
+if(!j||!p){o.textContent='Enter JSON data and a JSONPath expression.';return;}
+try{var d=JSON.parse(j);var r=evalJPath(d,p);
+if(r===undefined||r===null)o.textContent='No match found';
+else if(Array.isArray(r))o.textContent=r.length===0?'No matches':JSON.stringify(r,null,2);
+else o.textContent=JSON.stringify(r,null,2);
+o.className='output-box';}catch(e){o.textContent='Error: '+e.message;o.className='output-box error';}}
+function evalJPath(obj,path){if(path==='$')return obj;var p=path.replace(/^\$\.?/,'');var keys=p.split(/[.\[\]]+/).filter(Boolean);
+var cur=obj;for(var i=0;i<keys.length;i++){var k=keys[i];if(k==='*'&&Array.isArray(cur)){var res=[];for(var j=0;j<cur.length;j++){var r=evalJPath(cur[j],keys.slice(i+1).join('.'));if(r!==undefined)res=res.concat(Array.isArray(r)?r:[r]);}return res;}
+if(k.includes('?')){var cond=k.match(/\?(@\.(\w+)\s*[><=!]+\s*(\S+))/);if(cond&&Array.isArray(cur)){var prop=cond[2];var op=cond[0].match(/[><=!]+/)[0];var val=cond[3];return cur.filter(function(item){if(op==='>')return item[prop]>val;if(op==='<')return item[prop]<val;return item[prop]==val;});}}
+if(cur&&typeof cur==='object')cur=cur[k];else return undefined;}
+return cur;}
+function clearJPath(){document.getElementById('jpi').value='';document.getElementById('jpp').value='$.';document.getElementById('jpo').textContent='';}
+testJPath();
+</script></body></html>
