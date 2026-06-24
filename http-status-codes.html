@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTTP Status Codes — Free Online Reference</title><meta name="description" content="Complete HTTP status code reference. All HTTP response codes explained: 1xx, 2xx, 3xx, 4xx, 5xx. Search and filter.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/http-status-codes.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HTTP Status Codes Reference","url":"https://fulankizao.github.io/devtools/http-status-codes.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>HTTP Status Codes Reference</h1><p class="subtitle">Quick reference for all HTTP response status codes. Search by code or description.</p>
+<div class="tool-box"><input type="text" id="si" placeholder="Search by code or description..." oninput="filterHTTP()" style="font-family:var(--mono);"></div>
+<div id="ht" class="tool-box" style="padding:0;"></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="url-parser.html">URL Parser</a><a href="html-preview.html">HTML Preview</a><a href="json-formatter.html">JSON Formatter</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+var CODES=[
+{code:100,name:'Continue',cat:'1xx Informational'},{code:101,name:'Switching Protocols',cat:'1xx'},{code:102,name:'Processing',cat:'1xx'},
+{code:200,name:'OK',cat:'2xx Success'},{code:201,name:'Created',cat:'2xx'},{code:202,name:'Accepted',cat:'2xx'},
+{code:204,name:'No Content',cat:'2xx'},{code:206,name:'Partial Content',cat:'2xx'},
+{code:301,name:'Moved Permanently',cat:'3xx Redirection'},{code:302,name:'Found (Temporary Redirect)',cat:'3xx'},
+{code:304,name:'Not Modified',cat:'3xx'},{code:307,name:'Temporary Redirect',cat:'3xx'},{code:308,name:'Permanent Redirect',cat:'3xx'},
+{code:400,name:'Bad Request',cat:'4xx Client Error'},{code:401,name:'Unauthorized',cat:'4xx'},{code:403,name:'Forbidden',cat:'4xx'},
+{code:404,name:'Not Found',cat:'4xx'},{code:405,name:'Method Not Allowed',cat:'4xx'},{code:408,name:'Request Timeout',cat:'4xx'},
+{code:409,name:'Conflict',cat:'4xx'},{code:413,name:'Payload Too Large',cat:'4xx'},{code:429,name:'Too Many Requests',cat:'4xx'},
+{code:500,name:'Internal Server Error',cat:'5xx Server Error'},{code:501,name:'Not Implemented',cat:'5xx'},
+{code:502,name:'Bad Gateway',cat:'5xx'},{code:503,name:'Service Unavailable',cat:'5xx'},{code:504,name:'Gateway Timeout',cat:'5xx'}];
+function renderHTTP(codes){var h='<table style="width:100%;border-collapse:collapse;">';codes.forEach(function(c){
+var bg=c.cat.startsWith('2')?'#dcfce7':c.cat.startsWith('3')?'#fef3c7':c.cat.startsWith('4')?'#fee2e2':c.cat.startsWith('5')?'#fce7f3':c.cat.startsWith('1')?'#e0f2fe':'transparent';
+h+='<tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;font-family:var(--mono);font-weight:700;background:'+bg+';">'+c.code+'</td><td style="padding:8px 12px;background:'+bg+';">'+c.name+'</td><td style="padding:8px 12px;font-size:0.8rem;color:var(--text-muted);background:'+bg+';">'+c.cat+'</td></tr>';});
+h+='</table>';document.getElementById('ht').innerHTML=h;}
+function filterHTTP(){var q=document.getElementById('si').value.trim().toLowerCase();
+if(!q){renderHTTP(CODES);return;}
+var f=CODES.filter(function(c){return String(c.code).includes(q)||c.name.toLowerCase().includes(q)||c.cat.toLowerCase().includes(q);});
+renderHTTP(f);}
+renderHTTP(CODES);
+</script></body></html>
