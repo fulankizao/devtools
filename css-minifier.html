@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Minifier — Free Online DevTool</title><meta name="description" content="Minify CSS online. Compress CSS by removing whitespace, comments, and redundant properties. No upload required.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/css-minifier.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"CSS Minifier","url":"https://fulankizao.github.io/devtools/css-minifier.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>CSS Minifier</h1><p class="subtitle">Minify CSS by removing whitespace and comments. Compress stylesheets for faster page loads.</p>
+<div class="tool-box"><label for="ci">CSS Input</label><textarea id="ci" class="code-input" placeholder="Paste CSS here..." style="min-height:200px;">body { background: #f0f0f0; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; }
+h1 { font-size: 2rem; color: #3b82f6; }</textarea>
+<div class="tool-actions"><button class="btn btn-primary" onclick="minCSS()">Minify</button><button class="btn" onclick="beautyCSS()">Beautify</button><button class="btn btn-danger" onclick="clrCSS()">Clear</button></div>
+<label>Output</label><div id="co" class="output-box" style="min-height:120px;font-size:0.8rem;"></div><div class="count-badge" id="cs"></div>
+<div class="tool-actions"><button class="btn btn-sm" onclick="copyCSS()">Copy</button></div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="html-preview.html">HTML Preview</a><a href="markdown-preview.html">Markdown</a><a href="color-converter.html">Color Converter</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function minCSS(){var c=document.getElementById('ci').value;var o=document.getElementById('co');var s=document.getElementById('cs');
+if(!c.trim()){o.textContent='Please enter CSS.';return;}
+var m=c.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\s+/g,' ').replace(/\s*\{\s*/g,'{').replace(/\s*\}\s*/g,'}').replace(/\s*;\s*/g,';').replace(/\s*:\s*/g,':').replace(/,\s*/g,',').replace(/\s*,\s*/g,',').trim();
+o.textContent=m;o.className='output-box';
+var orig=c.length,min=m.length;
+s.textContent='Original: '+orig+' chars → Minified: '+min+' chars ('+Math.round((1-min/orig)*100)+'% reduction)';}
+function beautyCSS(){var c=document.getElementById('ci').value;var o=document.getElementById('co');
+var b=c.replace(/\{/g,'{\n  ').replace(/;/g,';\n  ').replace(/\}/g,'\n}\n').replace(/,/g,', ').replace(/\n\s*\n/g,'\n').trim();
+o.textContent=b;o.className='output-box';}
+function clrCSS(){document.getElementById('ci').value='';document.getElementById('co').textContent='';document.getElementById('cs').textContent='';}
+function copyCSS(){var t=document.getElementById('co').textContent;if(!t)return;navigator.clipboard.writeText(t);}
+</script></body></html>

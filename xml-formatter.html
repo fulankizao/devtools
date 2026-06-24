@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XML Formatter — Free Online DevTool</title><meta name="description" content="Free online XML formatter and validator. Format, beautify, and minify XML data with error detection.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/xml-formatter.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"XML Formatter","url":"https://fulankizao.github.io/devtools/xml-formatter.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>XML Formatter &amp; Beautifier</h1><p class="subtitle">Format, beautify, and minify XML data. All processing happens in your browser.</p>
+<div class="tool-box"><label for="xi">XML Input</label><textarea id="xi" class="code-input" placeholder="Paste your XML here..."></textarea>
+<div class="tool-actions"><button class="btn btn-primary" onclick="fmtXML()">Format / Beautify</button><button class="btn" onclick="minXML()">Minify</button><button class="btn btn-danger" onclick="clrXML()">Clear</button></div>
+<label>Output</label><div id="xo" class="output-box" style="min-height:150px;">Waiting for input...</div><div class="count-badge" id="xs"></div>
+<div class="tool-actions"><button class="btn btn-sm" onclick="copyXML()">Copy Output</button></div></div>
+<div class="tool-box"><h3 style="font-size:1rem;margin-bottom:8px;">About XML Formatter</h3><p style="font-size:0.875rem;color:var(--text-muted);">This formatter uses the browser's built-in DOMParser to parse and serialize XML with consistent indentation. It detects syntax errors and reports them with location information.</p></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="json-formatter.html">JSON Formatter</a><a href="csv-json.html">CSV/JSON</a><a href="html-encode.html">HTML Encode</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>function getIO(){var i=document.getElementById('xi'),o=document.getElementById('xo'),s=document.getElementById('xs');return{i,o,s};}
+function fmtXML(){var{i,o,s}=getIO();var v=i.value.trim();if(!v){o.textContent='Please enter XML.';return;}
+try{var p=new DOMParser();var d=p.parseFromString(v,'text/xml');var err=d.querySelector('parsererror');if(err){o.textContent='Error: '+err.textContent;o.className='output-box error';return;}
+var srl=new XMLSerializer();var f=srl.serializeToString(d);var fb=f.replace(/>\n\s*</g,'>\n  <').replace(/\s+</g,'\n  <');o.textContent=fb;o.className='output-box';s.textContent=fb.length+' chars';}catch(e){o.textContent='Error: '+e.message;o.className='output-box error';}}
+function minXML(){var{i,o}=getIO();try{var p=new DOMParser();var d=p.parseFromString(i.value,'text/xml');var err=d.querySelector('parsererror');if(err){o.textContent='Error';return;}
+var srl=new XMLSerializer();var m=srl.serializeToString(d);o.textContent=m.replace(/>\s*</g,'><');o.className='output-box';getIO().s.textContent=o.textContent.length+' chars (minified)';}catch(e){o.textContent='Error';}}
+function clrXML(){document.getElementById('xi').value='';document.getElementById('xo').textContent='Waiting for input...';document.getElementById('xs').textContent='';}
+function copyXML(){var t=document.getElementById('xo').textContent;if(!t||t==='Waiting for input...')return;navigator.clipboard.writeText(t);}</script></body></html>

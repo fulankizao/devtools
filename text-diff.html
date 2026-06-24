@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Diff Checker — Free Online DevTool</title><meta name="description" content="Compare two texts and highlight differences. Side-by-side text diff checker with line-level comparison.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/text-diff.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Text Diff Checker","url":"https://fulankizao.github.io/devtools/text-diff.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<style>.diff-add{background:#dcfce7;}.diff-rem{background:#fee2e2;}.diff-ctx{background:transparent;}td{padding:2px 8px;font-family:var(--mono);font-size:0.8rem;vertical-align:top;border-bottom:1px solid var(--border);}td:first-child{border-right:1px solid var(--border);}</style>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>Text Diff Checker</h1><p class="subtitle">Compare two texts side by side. Highlights added, removed, and unchanged lines.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="tool-box"><label for="da">Original Text</label><textarea id="da" class="code-input" placeholder="Original text..." oninput="diff()" style="min-height:200px;"></textarea></div>
+<div class="tool-box"><label for="db">Changed Text</label><textarea id="db" class="code-input" placeholder="Changed text..." oninput="diff()" style="min-height:200px;"></textarea></div></div>
+<div class="tool-box"><label>Differences</label><div id="do" class="output-box" style="min-height:100px;padding:0;overflow-x:auto;">Enter text in both fields to see differences.</div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="word-counter.html">Word Counter</a><a href="case-converter.html">Case Converter</a><a href="regex-tester.html">Regex Tester</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function diff(){var a=document.getElementById('da').value.split('\n'),b=document.getElementById('db').value.split('\n');
+var o=document.getElementById('do');if(!a[0]&&a.length===1&&!b[0]&&b.length===1){o.innerHTML='Enter text in both fields to see differences.';return;}
+var max=Math.max(a.length,b.length);var html='<table style="width:100%;border-collapse:collapse;">';
+for(var i=0;i<max;i++){var la=a[i]||'',lb=b[i]||'';var cls='diff-ctx';if(la!==lb&&i<a.length&&i<b.length)cls='diff-rem';if(la===''&&i>=a.length)cls='diff-add';if(lb===''&&i>=b.length)cls='diff-rem';
+if(la!==lb&&i<a.length&&i<b.length){var j=i;while(j<b.length){if(b[j]===a[i])break;j++;}if(j>b.length-1){cls='diff-rem';}}}
+html+='<tr><td class="'+cls+'">'+esc(la)+'</td><td class="'+cls+'">'+esc(lb)+'</td></tr>';}
+o.innerHTML=html+'</table>';}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script></body></html>

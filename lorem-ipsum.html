@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lorem Ipsum Generator — Free Online DevTool</title><meta name="description" content="Generate Lorem Ipsum placeholder text. Choose paragraphs, words, or bytes. Perfect for web design and content mockups.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/lorem-ipsum.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Lorem Ipsum Generator","url":"https://fulankizao.github.io/devtools/lorem-ipsum.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>Lorem Ipsum Generator</h1><p class="subtitle">Generate placeholder text for your designs and layouts. All generated in your browser.</p>
+<div class="tool-box"><div class="options-row">
+<label>Generate: <select id="lip-mode" onchange="genLIP()" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;">
+<option value="paragraphs">Paragraphs</option><option value="words">Words</option><option value="bytes">Bytes</option></select></label>
+<label>Count: <input type="number" id="lip-count" value="3" min="1" max="100" onchange="genLIP()" style="width:60px;padding:4px 8px;text-align:center;"></label>
+</div>
+<div class="tool-actions"><button class="btn btn-primary" onclick="genLIP()">Generate</button><button class="btn" onclick="copyLIP()">Copy All</button></div>
+<div class="output-box" id="lip-out" style="min-height:200px;">Click Generate to create Lorem Ipsum text.</div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="word-counter.html">Word Counter</a><a href="case-converter.html">Case Converter</a><a href="password-generator.html">Password Generator</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+var LIP_WORDS='Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'.split(' ');
+var LIP_SENTENCES=['Lorem ipsum dolor sit amet, consectetur adipiscing elit.','Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.','Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.','Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.','Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.','Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.','Sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.','At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis.'];
+function genLIP(){var m=document.getElementById('lip-mode').value;var n=parseInt(document.getElementById('lip-count').value)||3;var out='';
+if(m==='paragraphs'){for(var i=0;i<n;i++){var p='';var s=2+Math.floor(Math.random()*4);for(var j=0;j<s;j++)p+=LIP_SENTENCES[Math.floor(Math.random()*LIP_SENTENCES.length)]+' ';out+=p.trim()+'
+
+';}}
+else if(m==='words'){for(var i=0;i<n;i++)out+=LIP_WORDS[Math.floor(Math.random()*LIP_WORDS.length)]+' ';}
+else{var txt='';while(txt.length<n){txt+=LIP_WORDS[Math.floor(Math.random()*LIP_WORDS.length)]+' ';}out=txt.slice(0,n);}
+document.getElementById('lip-out').textContent=out.trim();}
+function copyLIP(){var t=document.getElementById('lip-out').textContent;if(!t||t.startsWith('Click'))return;navigator.clipboard.writeText(t);}
+genLIP();
+</script></body></html>

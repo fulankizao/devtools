@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHA224 Hash Generator — Free Online DevTool</title><meta name="description" content="Generate SHA-224 hash for text data. SHA-224 produces a 56-character hexadecimal string.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/sha224.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SHA224 Hash Generator","url":"https://fulankizao.github.io/devtools/sha224.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>SHA224 Hash Generator</h1><p class="subtitle">Generate SHA-224 hash. Produces a 56-character hexadecimal string. Part of the SHA-2 family.</p>
+<div class="tool-box"><label for="hi">Input Text</label><textarea id="hi" class="code-input" placeholder="Enter text to hash..."></textarea>
+<div class="tool-actions"><button class="btn btn-primary" onclick="gen()">Generate SHA224</button><button class="btn btn-danger" onclick="clr()">Clear</button></div>
+<label>SHA224 Hash</label><div id="ho" class="output-box" style="font-size:0.8rem;">Enter text to generate hash...</div>
+<div class="tool-actions"><button class="btn btn-sm" onclick="cpy()">Copy Hash</button></div></div>
+<div class="tool-box"><h3 style="font-size:1rem;margin-bottom:8px;">About SHA224</h3><p style="font-size:0.875rem;color:var(--text-muted);">SHA-224 is a truncated version of SHA-256, producing a 224-bit (56 hex char) hash. It is standardized in FIPS PUB 180-4 and is suitable for environments where a shorter hash length is required while maintaining backward compatibility with SHA-2 codebases.</p></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="sha256.html">SHA256</a><a href="sha384.html">SHA384</a><a href="sha512.html">SHA512</a><a href="sha1.html">SHA1</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>async function gen(){var i=document.getElementById('hi').value;if(!i.trim()){document.getElementById('ho').textContent='Enter text...';return;}
+var e=new TextEncoder();var d=e.encode(i);var h=await crypto.subtle.digest('SHA-256',d);
+var hex=Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+document.getElementById('ho').textContent=hex.slice(0,56);}
+function clr(){document.getElementById('hi').value='';document.getElementById('ho').textContent='Enter text to generate hash...';}
+function cpy(){var t=document.getElementById('ho').textContent;if(!t||t.startsWith('Enter'))return;navigator.clipboard.writeText(t);}
+</script></body></html>

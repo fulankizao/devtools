@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image to Base64 Converter — Free Online DevTool</title><meta name="description" content="Convert images to Base64 data URIs. Drag and drop or select files. Supports PNG, JPG, GIF, SVG. No upload to server.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/image-to-base64.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Image to Base64 Converter","url":"https://fulankizao.github.io/devtools/image-to-base64.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>Image to Base64 Converter</h1><p class="subtitle">Convert images to Base64 data URIs for embedding in HTML, CSS, and JavaScript. All processing in your browser.</p>
+<div class="tool-box" style="text-align:center;padding:40px;border:2px dashed var(--border);cursor:pointer;" id="drop-zone" ondragover="event.preventDefault();this.style.borderColor='var(--accent)';" ondrop="event.preventDefault();handleFile(event.dataTransfer.files[0]);">
+<p style="color:var(--text-muted);font-size:1.1rem;">Drop an image here or <a href="#" onclick="document.getElementById('file-input').click();return false;" style="color:var(--accent);">browse</a></p>
+<input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])" style="display:none;">
+<p style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;">Supports PNG, JPG, GIF, SVG, WebP</p></div>
+<div class="tool-box" id="img-result" style="display:none;">
+<div style="text-align:center;margin-bottom:12px;"><img id="img-preview" style="max-width:200px;max-height:200px;border-radius:4px;border:1px solid var(--border);"></div>
+<label>Base64 Data URI</label><textarea id="img-b64" class="code-input" readonly style="min-height:120px;font-size:0.75rem;"></textarea>
+<div class="tool-actions"><button class="btn btn-sm" onclick="copyImg64()">Copy Base64</button><button class="btn btn-danger btn-sm" onclick="resetImg()">Clear</button></div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="base64.html">Base64 Encode</a><a href="hex.html">HEX Encode</a><a href="html-encode.html">HTML Encode</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function handleFile(f){if(!f)return;var r=new FileReader();r.onload=function(e){var b64=e.target.result;
+document.getElementById('img-result').style.display='block';
+document.getElementById('img-preview').src=b64;
+document.getElementById('img-b64').value=b64;
+document.getElementById('drop-zone').style.display='none';};
+r.readAsDataURL(f);}
+function copyImg64(){var t=document.getElementById('img-b64').value;if(!t)return;navigator.clipboard.writeText(t).then(function(){var b=document.querySelector('#img-result .btn-sm');b.textContent='Copied!';setTimeout(function(){b.textContent='Copy Base64';},2000);});}
+function resetImg(){document.getElementById('img-result').style.display='none';document.getElementById('drop-zone').style.display='block';}
+</script>
+</body></html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Preview — Free Online DevTool</title><meta name="description" content="Write HTML and preview the rendered result in real-time. Live HTML sandbox for testing markup and styles.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/html-preview.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HTML Preview","url":"https://fulankizao.github.io/devtools/html-preview.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>HTML Preview</h1><p class="subtitle">Write HTML, CSS, and JavaScript and see the rendered result in real-time.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="tool-box"><label for="hi">HTML</label><textarea id="hi" class="code-input" oninput="renderHTML()" style="min-height:350px;"><h1>Hello World</h1>
+<p>This is a <strong>live</strong> HTML preview.</p>
+<style>h1{color:#3b82f6;}</style></textarea></div>
+<div class="tool-box"><label>Preview</label><iframe id="ho" style="width:100%;min-height:350px;border:1px solid var(--border);border-radius:6px;background:#fff;"></iframe></div></div>
+<div class="tool-actions" style="padding:0 20px;"><button class="btn btn-danger" onclick="document.getElementById('hi').value='<h1>Hello World</h1>\n<p>Write HTML here...</p>';renderHTML();">Reset</button></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="markdown-preview.html">Markdown Preview</a><a href="html-encode.html">HTML Encode</a><a href="xml-formatter.html">XML Formatter</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>function renderHTML(){var h=document.getElementById('hi').value;var ifr=document.getElementById('ho');ifr.src='data:text/html;charset=utf-8,'+encodeURIComponent(h);}
+renderHTML();
+document.getElementById('ho').addEventListener('load',function(){var h=document.getElementById('ho');try{h.style.height=h.contentWindow.document.documentElement.scrollHeight+'px';}catch(e){}});
+</script></body></html>

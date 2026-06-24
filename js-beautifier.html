@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Beautifier — Free Online DevTool</title><meta name="description" content="Beautify and format JavaScript code online. Make minified JS readable with proper indentation.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/js-beautifier.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"JavaScript Beautifier","url":"https://fulankizao.github.io/devtools/js-beautifier.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>JavaScript Beautifier</h1><p class="subtitle">Format and beautify JavaScript code. Make minified or messy JS readable with proper indentation.</p>
+<div class="tool-box"><label for="ji">JavaScript Input</label><textarea id="ji" class="code-input" placeholder="Paste JavaScript here..." style="min-height:200px;">function hello(name){console.log("Hello, "+name+"!");return{greeting:"Hello, "+name}}const items=[1,2,3,4,5];items.map(i=>i*2).filter(i=>i>5);</textarea>
+<div class="tool-actions"><button class="btn btn-primary" onclick="beautyJS()">Beautify</button><button class="btn" onclick="minJS()">Minify</button><button class="btn btn-danger" onclick="clrJS()">Clear</button></div>
+<label>Output</label><div id="jo" class="output-box" style="min-height:150px;font-size:0.8rem;"></div><div class="count-badge" id="js"></div>
+<div class="tool-actions"><button class="btn btn-sm" onclick="copyJS()">Copy</button></div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="css-minifier.html">CSS Minifier</a><a href="json-formatter.html">JSON Formatter</a><a href="html-preview.html">HTML Preview</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function beautyJS(){var j=document.getElementById('ji').value;var o=document.getElementById('jo');var s=document.getElementById('js');
+if(!j.trim()){o.textContent='Please enter JavaScript.';return;}
+try{var ast=JSON.parse('['+j.replace(/\bfunction\b/g,'"FUNCTION"').replace(/;/g,';\n').replace(/\{/g,'{\n').replace(/\}/g,'\n}').replace(/,/g,',\n')+']');o.textContent=j.replace(/;/g,';\n  ').replace(/\{/g,'{\n  ').replace(/\}/g,'\n}').replace(/,/g,', ').replace(/\n\s*\n/g,'\n').trim();o.className='output-box';s.textContent='Beautified';}
+catch(e){o.textContent='Beautified:\n'+j.replace(/;/g,';\n  ').replace(/\{/g,'{\n  ').replace(/\}/g,'\n}').replace(/,/g,', ').trim();o.className='output-box';}}
+function minJS(){var j=document.getElementById('ji').value;var o=document.getElementById('jo');
+o.textContent=j.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/[^\n]*/g,'').replace(/\s+/g,' ').replace(/\s*\{\s*/g,'{').replace(/\s*\}\s*/g,'}').replace(/\s*;\s*/g,';').replace(/\s*:\s*/g,':').replace(/,\s*/g,',').trim();
+o.className='output-box';document.getElementById('js').textContent='Minified';}
+function clrJS(){document.getElementById('ji').value='';document.getElementById('jo').textContent='';document.getElementById('js').textContent='';}
+function copyJS(){var t=document.getElementById('jo').textContent;if(!t)return;navigator.clipboard.writeText(t);}
+</script></body></html>

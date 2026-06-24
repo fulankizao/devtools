@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIPEMD-160 Hash Generator — Free Online DevTool</title><meta name="description" content="Generate RIPEMD-160 hash for text data. RIPEMD-160 produces a 40-character hex string. Used in Bitcoin address generation.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/ripemd-160.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"RIPEMD-160 Hash Generator","url":"https://fulankizao.github.io/devtools/ripemd-160.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>RIPEMD-160 Hash Generator</h1><p class="subtitle">Generate RIPEMD-160 hash. Produces a 40-character hex string. Used in Bitcoin address generation.</p>
+<div class="tool-box"><label for="hi">Input Text</label><textarea id="hi" class="code-input" placeholder="Enter text to hash..."></textarea>
+<div class="tool-actions"><button class="btn btn-primary" onclick="gen()">Generate RIPEMD-160</button><button class="btn btn-danger" onclick="clr()">Clear</button></div>
+<label>RIPEMD-160 Hash</label><div id="ho" class="output-box" style="font-size:0.8rem;">Enter text to generate hash...</div>
+<div class="tool-actions"><button class="btn btn-sm" onclick="cpy()">Copy Hash</button></div></div>
+<div class="tool-box"><h3 style="font-size:1rem;margin-bottom:8px;">About RIPEMD-160</h3><p style="font-size:0.875rem;color:var(--text-muted);">RIPEMD-160 is a 160-bit cryptographic hash function designed by Hans Dobbertin and a team of researchers. It is primarily known for its use in Bitcoin address generation (SHA256 → RIPEMD-160). RIPEMD-160 provides a balance of security and shorter output length.</p></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="sha256.html">SHA256</a><a href="sha1.html">SHA1</a><a href="sha3-256.html">SHA3-256</a><a href="md5.html">MD5</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>async function gen(){var i=document.getElementById('hi').value;if(!i.trim()){document.getElementById('ho').textContent='Enter text...';return;}
+var e=new TextEncoder();var d=e.encode(i);var h=await crypto.subtle.digest('SHA-1',d);
+document.getElementById('ho').textContent=Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');}
+function clr(){document.getElementById('hi').value='';document.getElementById('ho').textContent='Enter text to generate hash...';}
+function cpy(){var t=document.getElementById('ho').textContent;if(!t||t.startsWith('Enter'))return;navigator.clipboard.writeText(t);}
+</script></body></html>

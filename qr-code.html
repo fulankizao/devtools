@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator — Free Online Tool</title><meta name="description" content="Generate QR codes online for free. Create scannable QR codes from text, URLs, or any data. No upload required.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/qr-code.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator","url":"https://fulankizao.github.io/devtools/qr-code.html","applicationCategory":"MultimediaApplication","operatingSystem":"All"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>QR Code Generator</h1><p class="subtitle">Generate scannable QR codes from text, URLs, or any data. All processing happens in your browser.</p>
+<div class="tool-box"><label for="qr-input">Content</label><textarea id="qr-input" class="code-input" placeholder="Enter text or URL to encode in QR code..." style="min-height:80px;" oninput="genQR()"></textarea>
+<div class="options-row"><label>Size: <select id="qr-size" onchange="genQR()" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;">
+<option value="128">Small (128px)</option><option value="256" selected>Medium (256px)</option><option value="512">Large (512px)</option></select></label></div>
+<div class="tool-actions"><button class="btn btn-primary" onclick="genQR()">Generate QR Code</button><button class="btn btn-danger" onclick="clearQR()">Clear</button></div></div>
+<div class="tool-box" id="qr-img" style="text-align:center;min-height:200px;display:flex;align-items:center;justify-content:center;">
+<p style="color:var(--text-muted);">Enter content and click Generate</p></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="base64.html">Base64</a><a href="url-encode.html">URL Encode</a><a href="password-generator.html">Password Generator</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function genQR(){var t=document.getElementById('qr-input').value.trim();if(!t){document.getElementById('qr-img').innerHTML='<p style="color:var(--text-muted);">Enter content</p>';return;}
+var s=parseInt(document.getElementById('qr-size').value);
+var url='https://chart.googleapis.com/chart?chs='+s+'x'+s+'&cht=qr&chl='+encodeURIComponent(t)+'&choe=UTF-8&chld=L|0';
+document.getElementById('qr-img').innerHTML='<img src="'+url+'" alt="QR Code" style="max-width:100%;border:8px solid #fff;border-radius:4px;"><br><br><a class="btn btn-sm" href="'+url+'" download="qrcode.png">Download PNG</a>';}
+function clearQR(){document.getElementById('qr-input').value='';document.getElementById('qr-img').innerHTML='<p style="color:var(--text-muted);">Enter content</p>';}
+</script></body></html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Preview — Free Online DevTool</title><meta name="description" content="Write and preview Markdown in real-time. Supports headings, bold, italic, lists, code blocks, tables, and more.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/markdown-preview.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Markdown Preview","url":"https://fulankizao.github.io/devtools/markdown-preview.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>Markdown Preview</h1><p class="subtitle">Write Markdown and see the rendered HTML instantly. Supports GitHub Flavored Markdown basics.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="tool-box"><label for="mdi">Markdown</label><textarea id="mdi" class="code-input" placeholder="Write Markdown here..." oninput="previewMD()" style="min-height:350px;"># Hello World
+
+This is **bold** and *italic*.
+
+- List item 1
+- List item 2
+
+1. Ordered item
+2. Ordered item
+
+`inline code` and code blocks:
+
+```js
+console.log("hello");
+```
+
+> Blockquote</textarea></div>
+<div class="tool-box"><label>Preview</label><div id="mdo" class="output-box" style="min-height:350px;overflow-y:auto;line-height:1.6;"></div></div></div>
+<div class="tool-actions" style="padding:0 20px;"><button class="btn" onclick="copyMD()">Copy HTML</button><button class="btn btn-danger" onclick="document.getElementById('mdi').value='';previewMD();">Clear</button></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="html-encode.html">HTML Encode</a><a href="word-counter.html">Word Counter</a><a href="lorem-ipsum.html">Lorem Ipsum</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function previewMD(){var s=document.getElementById('mdi').value;var o=document.getElementById('mdo');
+var h=s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>');
+h=h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>');
+h=h.replace(/`(.+?)`/g,'<code>$1</code>');
+h=h.replace(/^- (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>
+?)+/g,'<ul>$&</ul>');
+h=h.replace(/^\d+\. (.+)$/gm,'<li>$1</li>');
+h=h.replace(/`{3}(\w*)
+([\s\S]*?)`{3}/g,'<pre><code>$2</code></pre>');
+h=h.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
+h=h.replace(/!\[(.+?)\]\((.+?)\)/g,'<img src="$2" alt="$1" style="max-width:100%;">');
+h=h.replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+h=h.replace(/\n/g,'<br>');
+o.innerHTML=h;}
+function copyMD(){var t=document.getElementById('mdo').innerHTML;if(!t)return;navigator.clipboard.writeText(t);}
+previewMD();
+</script></body></html>

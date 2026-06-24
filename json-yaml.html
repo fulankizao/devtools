@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON ↔ YAML Converter — Free Online DevTool</title><meta name="description" content="Convert JSON to YAML and YAML to JSON online. Free browser-based converter with no server upload.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/json-yaml.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"JSON to YAML Converter","url":"https://fulankizao.github.io/devtools/json-yaml.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>JSON ↔ YAML Converter</h1><p class="subtitle">Convert between JSON and YAML formats. Simple conversion for configuration files.</p>
+<div class="tool-box"><div class="options-row"><label>Direction: <select id="jy-dir" onchange="clrJY()" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;">
+<option value="j2y">JSON → YAML</option><option value="y2j">YAML → JSON</option></select></label></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="tool-box"><label for="jyi">Input</label><textarea id="jyi" class="code-input" placeholder="Paste JSON or YAML..." style="min-height:200px;"></textarea></div>
+<div class="tool-box"><label>Output</label><div id="jyo" class="output-box" style="min-height:200px;">Enter input and click Convert.</div></div></div>
+<div class="tool-actions" style="padding:0 20px;"><button class="btn btn-primary" onclick="convJY()">Convert</button><button class="btn" onclick="copyJY()">Copy</button><button class="btn btn-danger" onclick="clrJY()">Clear</button></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="json-formatter.html">JSON Formatter</a><a href="csv-json.html">CSV/JSON</a><a href="xml-formatter.html">XML Formatter</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function obj2yaml(obj,d){d=d||0;var pad='  '.repeat(d);var out='';if(Array.isArray(obj)){obj.forEach(function(v){var k=typeof v==='object'&&v!==null;out+=pad+'- '+(k?'\n'+obj2yaml(v,d+1):v+'\n');});}else if(obj&&typeof obj==='object'){Object.keys(obj).forEach(function(k){var v=obj[k];var kv=typeof v==='object'&&v!==null;out+=pad+k+':'+(kv?'\n'+obj2yaml(v,d+1):' '+v+'\n');});}else{out+=String(obj);}return out;}
+function convJY(){var i=document.getElementById('jyi').value.trim();var d=document.getElementById('jy-dir').value;var o=document.getElementById('jyo');
+if(!i){o.textContent='Please enter input.';return;}
+try{if(d==='j2y'){var p=JSON.parse(i);o.textContent=obj2yaml(p).trim();o.className='output-box';}else{var lines=i.split('\n');o.textContent=JSON.stringify(parseYAML(i),null,2);o.className='output-box';}}catch(e){o.textContent='Error: '+e.message;o.className='output-box error';}}
+function parseYAML(s){var obj={};s.split('\n').forEach(function(l){var m=l.match(/^\s*(\S+):\s*(.*)/);if(m)obj[m[1]]=m[2]||null;});return obj;}
+function copyJY(){var t=document.getElementById('jyo').textContent;if(!t||t==='Enter input...'||t.startsWith('Error'))return;navigator.clipboard.writeText(t);}
+function clrJY(){document.getElementById('jyi').value='';document.getElementById('jyo').textContent='Enter input and click Convert.';}
+</script></body></html>
