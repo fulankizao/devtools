@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Converter — Free Online DevTool</title>
+<meta name="description" content="Convert text between camelCase, snake_case, kebab-case, UPPER CASE, lower case, Title Case, and PascalCase.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/case-converter.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Case Converter","url":"https://fulankizao.github.io/devtools/case-converter.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body>
+<header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page">
+<h1>Case Converter</h1>
+<p class="subtitle">Convert text between different naming conventions. Supports 7 formats.</p>
+<div class="tool-box">
+<label for="ci">Input Text</label>
+<textarea id="ci" class="code-input" placeholder="Enter text to convert..." style="min-height:100px;" oninput="convertAll()"></textarea>
+<div class="tool-actions"><button class="btn btn-danger" onclick="document.getElementById('ci').value='';convertAll();">Clear</button></div>
+</div>
+<div class="tool-box"><label>camelCase</label><input type="text" id="r-camel" readonly style="font-family:var(--mono);" onclick="this.select();navigator.clipboard.writeText(this.value);"></div>
+<div class="tool-box"><label>PascalCase</label><input type="text" id="r-pascal" readonly style="font-family:var(--mono);" onclick="this.select();navigator.clipboard.writeText(this.value);"></div>
+<div class="tool-box"><label>snake_case</label><input type="text" id="r-snake" readonly style="font-family:var(--mono);" onclick="this.select();navigator.clipboard.writeText(this.value);"></div>
+<div class="tool-box"><label>kebab-case</label><input type="text" id="r-kebab" readonly style="font-family:var(--mono);" onclick="this.select();navigator.clipboard.writeText(this.value);"></div>
+<div class="tool-box"><label>UPPER CASE</label><input type="text" id="r-upper" readonly style="font-family:var(--mono);" onclick="this.select();navigator.clipboard.writeText(this.value);"></div>
+<div class="tool-box"><label>lower case</label><input type="text" id="r-lower" readonly style="font-family:var(--mono);" onclick="this.select();navigator.clipboard.writeText(this.value);"></div>
+<div class="tool-box"><label>Title Case</label><input type="text" id="r-title" readonly style="font-family:var(--mono);" onclick="this.select();navigator.clipboard.writeText(this.value);"></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="word-counter.html">Word Counter</a><a href="json-formatter.html">JSON Formatter</a><a href="regex-tester.html">Regex Tester</a>
+</div></div>
+</div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function toWords(s){return s.match(/[A-Z]+[a-z]*|[a-z]+|\d+/g)||[];}
+function convertAll(){
+var s=document.getElementById('ci').value;
+if(!s.trim()){var inputs=document.querySelectorAll('[id^="r-"]');inputs.forEach(function(el){el.value='';});return;}
+var words=toWords(s).map(function(w){return w.toLowerCase();});
+if(words.length===0)return;
+document.getElementById('r-camel').value=words[0]+words.slice(1).map(function(w){return w[0].toUpperCase()+w.slice(1);}).join('');
+document.getElementById('r-pascal').value=words.map(function(w){return w[0].toUpperCase()+w.slice(1);}).join('');
+document.getElementById('r-snake').value=words.join('_');
+document.getElementById('r-kebab').value=words.join('-');
+document.getElementById('r-upper').value=words.join(' ').toUpperCase();
+document.getElementById('r-lower').value=words.join(' ').toLowerCase();
+document.getElementById('r-title').value=words.map(function(w){return w[0].toUpperCase()+w.slice(1);}).join(' ');
+}
+</script>
+</body>
+</html>
