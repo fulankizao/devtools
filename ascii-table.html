@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASCII Table — Free Online DevTool</title><meta name="description" content="Complete ASCII table reference. View all 128 ASCII characters with decimal, hex, binary, and HTML entity values.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/ascii-table.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ASCII Table","url":"https://fulankizao.github.io/devtools/ascii-table.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>ASCII Table</h1><p class="subtitle">Complete ASCII character reference. Search by character, code, or description.</p>
+<div class="tool-box"><input type="text" id="si" placeholder="Search by character, hex, dec, or name..." oninput="filterASCII()" style="font-family:var(--mono);">
+<div class="options-row" style="margin-top:8px;"><label><input type="checkbox" id="sh" onchange="filterASCII()"> Show control chars</label></div></div>
+<div class="tool-box" style="padding:0;"><div id="ao" style="overflow-x:auto;"></div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="number-base.html">Number Base</a><a href="hex.html">HEX Encode</a><a href="base64.html">Base64</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+var ASCII=[];
+for(var i=0;i<128;i++){var c=String.fromCharCode(i);var n=i<33||i===127?'Ctrl':'Char';var d=i===0?'NUL':i===1?'SOH':i===2?'STX':i===3?'ETX':i===4?'EOT':i===5?'ENQ':i===6?'ACK':i===7?'BEL':i===8?'BS':i===9?'TAB':i===10?'LF':i===11?'VT':i===12?'FF':i===13?'CR':i===14?'SO':i===15?'SI':i===16?'DLE':i===17?'DC1':i===18?'DC2':i===19?'DC3':i===20?'DC4':i===21?'NAK':i===22?'SYN':i===23?'ETB':i===24?'CAN':i===25?'EM':i===26?'SUB':i===27?'ESC':i===28?'FS':i===29?'GS':i===30?'RS':i===31?'US':i===127?'DEL':c;
+ASCII.push({dec:i,hex:i.toString(16).toUpperCase().padStart(2,'0'),bin:i.toString(2).padStart(8,'0'),char:i<33||i===127?'':c,html:i===34?'&quot;':i===38?'&amp;':i===39?'&#39;':i===60?'&lt;':i===62?'&gt;':i<33||i===127?'':c,desc:d,isCtrl:i<33||i===127});}
+function renderASCII(filter,showCtrl){var h='<table style="width:100%;border-collapse:collapse;font-size:0.85rem;">';
+h+='<tr style="background:var(--bg);font-weight:600;"><td style="padding:6px 10px;">Dec</td><td style="padding:6px 10px;">Hex</td><td style="padding:6px 10px;">Binary</td><td style="padding:6px 10px;">Char</td><td style="padding:6px 10px;">HTML</td><td style="padding:6px 10px;">Description</td></tr>';
+ASCII.forEach(function(c){if(!showCtrl&&c.isCtrl)return;if(filter&&!String(c.dec).includes(filter)&&!c.hex.includes(filter)&&!c.bin.includes(filter)&&!c.desc.toLowerCase().includes(filter))return;
+h+='<tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 10px;font-family:var(--mono);">'+c.dec+'</td><td style="padding:4px 10px;font-family:var(--mono);color:var(--accent);">'+c.hex+'</td><td style="padding:4px 10px;font-family:var(--mono);font-size:0.75rem;">'+c.bin+'</td><td style="padding:4px 10px;font-family:var(--mono);font-size:1.1rem;">'+c.char+'</td><td style="padding:4px 10px;font-family:var(--mono);">'+c.html+'</td><td style="padding:4px 10px;">'+c.desc+'</td></tr>';});
+h+='</table>';document.getElementById('ao').innerHTML=h;}
+function filterASCII(){var q=document.getElementById('si').value.trim().toLowerCase();renderASCII(q,document.getElementById('sh').checked);}
+renderASCII('',false);
+</script></body></html>
