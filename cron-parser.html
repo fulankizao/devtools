@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cron Expression Parser — Free Online DevTool</title><meta name="description" content="Parse and explain cron expressions. Understand what your cron jobs do in plain English. Supports standard 5-field format.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/cron-parser.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Cron Expression Parser","url":"https://fulankizao.github.io/devtools/cron-parser.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>Cron Expression Parser</h1><p class="subtitle">Parse cron expressions and see what they mean in plain English.</p>
+<div class="tool-box"><label for="ci">Cron Expression</label><input type="text" id="ci" value="*/5 * * * *" placeholder="minute hour day month weekday" oninput="parseCron()" style="font-family:var(--mono);font-size:1.1rem;text-align:center;">
+<div class="tool-actions"><button class="btn btn-primary" onclick="parseCron()">Parse</button><button class="btn btn-danger" onclick="document.getElementById('ci').value='';document.getElementById('co').innerHTML='';">Clear</button></div>
+<div id="co" class="output-box" style="min-height:120px;font-size:0.9rem;"></div></div>
+<div class="tool-box"><h3 style="font-size:1rem;margin-bottom:8px;">Common Examples</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.85rem;">
+<a href="#" onclick="setCron('0 * * * *');return false;" style="color:var(--accent);">Every hour</a>
+<a href="#" onclick="setCron('0 0 * * *');return false;" style="color:var(--accent);">Daily midnight</a>
+<a href="#" onclick="setCron('0 9 * * 1-5');return false;" style="color:var(--accent);">Weekdays 9am</a>
+<a href="#" onclick="setCron('*/30 * * * *');return false;" style="color:var(--accent);">Every 30 min</a>
+</div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="timestamp.html">Timestamp</a><a href="regex-tester.html">Regex</a><a href="sha256.html">SHA256</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function parseCron(){var e=document.getElementById('ci').value.trim().split(/\s+/);var o=document.getElementById('co');
+if(e.length!==5){o.innerHTML='<span style="color:#dc2626;">Invalid: cron requires exactly 5 fields (min hour day month weekday)</span>';return;}
+try{o.innerHTML='<strong>Cron:</strong> '+e.join(' ')+'<br><br><strong>Meaning:</strong><br>'+descField('Minute',e[0],0,59)+'<br>'+descField('Hour',e[1],0,23)+'<br>'+descField('Day of Month',e[2],1,31)+'<br>'+descField('Month',e[3],1,12,'month')+'<br>'+descField('Weekday',e[4],0,6,'day')+'<br>';}catch(e){o.innerHTML='<span style="color:#dc2626;">Error parsing expression</span>';}}
+function descField(name,expr,min,max,type){if(expr==='*')return name+': <strong>every</strong>';
+if(expr.startsWith('*/'))return name+': <strong>every '+expr.slice(2)+'</strong> unit(s)';
+if(expr.includes('/')){var p=expr.split('/');return name+': <strong>every '+p[1]+'</strong> starting at '+p[0];}
+if(expr.includes('-')){var r=expr.split('-');if(type==='day')return name+': <strong>'+DAYS[parseInt(r[0])]+' to '+DAYS[parseInt(r[1])]+'</strong>';
+if(type==='month')return name+': <strong>'+MONTHS[parseInt(r[0])-1]+' to '+MONTHS[parseInt(r[1])-1]+'</strong>';
+return name+': <strong>'+r[0]+' through '+r[1]+'</strong>';}
+if(expr.includes(',')){var vals=expr.split(',');if(type==='day')return name+': <strong>'+vals.map(function(v){return DAYS[parseInt(v)];}).join(', ')+'</strong>';
+if(type==='month')return name+': <strong>'+vals.map(function(v){return MONTHS[parseInt(v)-1];}).join(', ')+'</strong>';
+return name+': <strong>'+vals.join(', ')+'</strong>';}
+var n=parseInt(expr);if(type==='day')return name+': <strong>'+DAYS[n]+'</strong>';
+if(type==='month')return name+': <strong>'+MONTHS[n-1]+'</strong>';
+return name+': <strong>at '+n+'</strong>';}
+function setCron(e){document.getElementById('ci').value=e;parseCron();}
+parseCron();
+</script></body></html>
