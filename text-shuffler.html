@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Shuffler &amp; Sorter — Free Online DevTool</title>
+<meta name="description" content="Free online text shuffler and sorter. Shuffle lines randomly, sort alphabetically, or reverse line order. Paste your lines and transform instantly.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/text-shuffler.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Text Shuffler &amp; Sorter","url":"https://fulankizao.github.io/devtools/text-shuffler.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body>
+<header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page">
+<h1>Text Shuffler &amp; Sorter</h1>
+<p class="subtitle">Shuffle, sort, or reverse lines of text. All processing is done in your browser.</p>
+<div class="tool-box">
+<label for="ts-input">Input Lines</label>
+<textarea id="ts-input" class="code-input" placeholder="Paste one item per line..." style="min-height:200px;"></textarea>
+<div class="tool-actions">
+<button class="btn" onclick="shuffleLines()">🔀 Shuffle</button>
+<button class="btn" onclick="sortLines()">⬆️ Sort A–Z</button>
+<button class="btn" onclick="reverseLines()">↕️ Reverse</button>
+<button class="btn btn-danger" onclick="clearAll()">Clear</button>
+</div>
+</div>
+<div class="tool-box">
+<label for="ts-output">Output</label>
+<textarea id="ts-output" class="code-input" readonly style="min-height:200px;" onclick="this.select();navigator.clipboard.writeText(this.value);"></textarea>
+</div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.85rem;">
+<a href="word-counter.html">Word Counter</a><a href="case-converter.html">Case Converter</a><a href="lorem-ipsum.html">Lorem Ipsum</a>
+</div></div>
+</div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function getLines(){return document.getElementById('ts-input').value.split('\n');}
+function setOutput(lines){document.getElementById('ts-output').value=lines.join('\n');}
+function shuffleArray(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function shuffleLines(){setOutput(shuffleArray(getLines()));}
+function sortLines(){setOutput(getLines().sort());}
+function reverseLines(){setOutput(getLines().reverse());}
+function clearAll(){document.getElementById('ts-input').value='';document.getElementById('ts-output').value='';}
+</script>
+</body>
+</html>
