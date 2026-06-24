@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Table Generator — Free Online DevTool</title>
+  <meta name="description" content="Free online HTML table generator. Paste CSV data or set custom dimensions to create styled HTML tables. No upload required.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/html-table-generator.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HTML Table Generator","url":"https://fulankizao.github.io/devtools/html-table-generator.html","applicationCategory":"DeveloperApplication","operatingSystem":"All"}</script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+  <div class="tool-page">
+    <h1>HTML Table Generator</h1>
+    <p class="subtitle">Generate HTML tables from CSV data or by specifying dimensions. All processing happens in your browser.</p>
+    <div class="tool-box">
+      <div class="options-row">
+        <label>Mode: <select id="htg-mode" onchange="toggleMode()" style="margin-left:4px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;">
+          <option value="csv">Paste CSV</option>
+          <option value="manual">Set Dimensions</option>
+        </select></label>
+        <label id="delim-label" style="display:none;">Delimiter: <select id="htg-delimiter" style="margin-left:4px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;">
+          <option value=",">Comma (,)</option>
+          <option value="&#9;">Tab</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="|">Pipe (|)</option>
+        </select></label>
+      </div>
+    </div>
+    <div class="tool-box" id="htg-csv-box">
+      <label for="htg-input">CSV Data (first row = headers)</label>
+      <textarea id="htg-input" class="code-input" placeholder="name,age,city&#10;Alice,30,New York&#10;Bob,25,Los Angeles&#10;Carol,35,Chicago"></textarea>
+    </div>
+    <div class="tool-box" id="htg-manual-box" style="display:none;">
+      <div class="options-row">
+        <label>Columns: <input type="number" id="htg-cols" value="3" min="1" max="20" style="width:80px;margin-left:4px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;"></label>
+        <label>Rows: <input type="number" id="htg-rows" value="3" min="1" max="50" style="width:80px;margin-left:4px;padding:4px 8px;border:1px var(--border);border-radius:4px;"></label>
+        <button class="btn btn-sm" onclick="buildGrid()">Build Grid</button>
+      </div>
+      <div id="htg-grid-area" style="overflow-x:auto;"></div>
+    </div>
+    <div class="tool-actions" style="padding:0 20px;">
+      <button class="btn btn-primary" onclick="generateTable()">Generate</button>
+      <button class="btn" onclick="copyHTML()">Copy HTML</button>
+      <button class="btn btn-danger" onclick="clearAll()">Clear</button>
+    </div>
+    <div class="tool-box">
+      <label>Preview</label>
+      <div id="htg-preview" class="output-box">Click Generate to create a table...</div>
+      <div id="htg-html-output" class="output-box" style="margin-top:8px;max-height:200px;overflow:auto;display:none;"></div>
+    </div>
+    <div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.85rem;">
+      <a href="csv-json.html">CSV ↔ JSON</a><a href="json-formatter.html">JSON Formatter</a>
+    </div></div>
+  </div>
+  <footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+  <script>
+  function toggleMode(){
+    var mode=document.getElementById('htg-mode').value;
+    document.getElementById('htg-csv-box').style.display=mode==='csv'?'block':'none';
+    document.getElementById('htg-manual-box').style.display=mode==='manual'?'block':'none';
+    document.getElementById('delim-label').style.display=mode==='csv'?'inline-flex':'none';
+  }
+  function buildGrid(){
+    var cols=parseInt(document.getElementById('htg-cols').value)||3;
+    var rows=parseInt(document.getElementById('htg-rows').value)||3;
+    var area=document.getElementById('htg-grid-area');
+    var h='<table style="border-collapse:collapse;width:100%;font-size:0.85rem;">';
+    h+='<thead><tr>';
+    for(var c=0;c<cols;c++){
+      h+='<th style="padding:6px 8px;border:1px solid var(--border);background:var(--accent-light);text-align:left;">Header <input type="text" class="htg-cell" data-r="0" data-c="'+c+'" value="Column '+(c+1)+'" style="width:90%;border:none;background:transparent;font-family:var(--mono);font-size:0.8rem;"></th>';
+    }
+    h+='</tr></thead><tbody>';
+    for(var r=1;r<=rows;r++){
+      h+='<tr>';
+      for(var c=0;c<cols;c++){
+        h+='<td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" class="htg-cell" data-r="'+r+'" data-c="'+c+'" value="" placeholder="cell" style="width:100%;border:none;background:transparent;font-family:var(--mono);font-size:0.8rem;"></td>';
+      }
+      h+='</tr>';
+    }
+    h+='</tbody></table>';
+    area.innerHTML=h;
+  }
+  function getData(){
+    var mode=document.getElementById('htg-mode').value;
+    if(mode==='csv'){
+      var raw=document.getElementById('htg-input').value.trim();
+      if(!raw)return null;
+      var delim=document.getElementById('htg-delimiter').value;
+      var lines=raw.split('\n').filter(Boolean);
+      var data=[];
+      for(var i=0;i<lines.length;i++){
+        var vals=lines[i].split(delim).map(function(v){return v.trim();});
+        data.push(vals);
+      }
+      return data;
+    }else{
+      var inputs=document.querySelectorAll('.htg-cell');
+      if(!inputs.length){buildGrid();inputs=document.querySelectorAll('.htg-cell');}
+      var map={};
+      var maxR=0,maxC=0;
+      inputs.forEach(function(el){
+        var r=parseInt(el.getAttribute('data-r'));
+        var c=parseInt(el.getAttribute('data-c'));
+        if(r>maxR)maxR=r;if(c>maxC)maxC=c;
+        var k=r+','+c;
+        map[k]=el.value;
+      });
+      var data=[];
+      for(var r=0;r<=maxR;r++){
+        var row=[];
+        for(var c=0;c<=maxC;c++){
+          row.push(map[r+','+c]||'');
+        }
+        data.push(row);
+      }
+      return data;
+    }
+  }
+  function generateTable(){
+    var data=getData();
+    if(!data||data.length<1){
+      document.getElementById('htg-preview').textContent='Please provide data.';
+      document.getElementById('htg-preview').className='output-box error';
+      document.getElementById('htg-html-output').style.display='none';
+      return;
+    }
+    var h='<table style="border-collapse:collapse;width:100%;font-family:var(--mono);font-size:0.85rem;">';
+    // headers
+    h+='<thead><tr>';
+    var headers=data[0];
+    for(var c=0;c<headers.length;c++){
+      h+='<th style="padding:8px 12px;border:1px solid #ccc;background:#3b82f6;color:#fff;text-align:left;font-weight:600;">'+escHTML(headers[c])+'</th>';
+    }
+    h+='</tr></thead><tbody>';
+    for(var r=1;r<data.length;r++){
+      h+='<tr>';
+      var row=data[r];
+      for(var c=0;c<headers.length;c++){
+        var bg=(r%2===0)?'#f9fafb':'#fff';
+        h+='<td style="padding:8px 12px;border:1px solid #ccc;background:'+bg+';">'+escHTML(row[c]||'')+'</td>';
+      }
+      h+='</tr>';
+    }
+    h+='</tbody></table>';
+    var preview=document.getElementById('htg-preview');
+    preview.innerHTML=h;
+    preview.className='output-box';
+    var htmlOut=document.getElementById('htg-html-output');
+    htmlOut.textContent=h;
+    htmlOut.style.display='block';
+  }
+  function escHTML(s){
+    if(!s)return'';
+    var d=document.createElement('div');
+    d.textContent=s;
+    return d.innerHTML;
+  }
+  function copyHTML(){
+    var htmlOut=document.getElementById('htg-html-output');
+    if(!htmlOut.textContent||htmlOut.textContent.startsWith('Click'))return;
+    navigator.clipboard.writeText(htmlOut.textContent).then(function(){
+      var btns=document.querySelectorAll('.tool-actions .btn');
+      var btn=null;
+      for(var i=0;i<btns.length;i++){if(btns[i].textContent==='Copy HTML'){btn=btns[i];break;}}
+      if(!btn)return;
+      var o=btn.textContent;
+      btn.textContent='Copied!';
+      setTimeout(function(){btn.textContent=o;},1500);
+    });
+  }
+  function clearAll(){
+    document.getElementById('htg-input').value='';
+    document.getElementById('htg-preview').textContent='Click Generate to create a table...';
+    document.getElementById('htg-preview').className='output-box';
+    document.getElementById('htg-html-output').textContent='';
+    document.getElementById('htg-html-output').style.display='none';
+    document.getElementById('htg-grid-area').innerHTML='';
+  }
+  // init manual grid on page load for manual mode
+  buildGrid();
+  </script>
+</body>
+</html>
