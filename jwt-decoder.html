@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JWT Decoder — Free Online DevTool</title><meta name="description" content="Decode JSON Web Tokens (JWT) online. View header, payload, and signature. Validate token format. No upload required.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/jwt-decoder.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"JWT Decoder","url":"https://fulankizao.github.io/devtools/jwt-decoder.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>JWT Decoder</h1><p class="subtitle">Decode JSON Web Tokens and inspect the header, payload, and signature. Token validation included.</p>
+<div class="tool-box"><label for="ji">JWT Token</label><textarea id="ji" class="code-input" placeholder="Paste JWT token here..." oninput="decodeJWT()" style="min-height:100px;font-size:0.8rem;">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</textarea>
+<div class="tool-actions"><button class="btn btn-danger" onclick="document.getElementById('ji').value='';document.getElementById('jh').textContent='';document.getElementById('jp').textContent='';document.getElementById('js').textContent='';document.getElementById('jv').textContent='';">Clear</button></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="tool-box"><label>Header</label><div id="jh" class="output-box" style="min-height:80px;font-size:0.75rem;"></div></div>
+<div class="tool-box"><label>Payload</label><div id="jp" class="output-box" style="min-height:80px;font-size:0.75rem;"></div></div></div>
+<div class="tool-box" style="margin-top:0;"><label>Signature (hex)</label><div id="js" class="output-box" style="font-size:0.75rem;word-break:break-all;min-height:40px;"></div>
+<div id="jv" style="margin-top:8px;font-size:0.85rem;"></div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="base64.html">Base64</a><a href="sha256.html">SHA256</a><a href="json-formatter.html">JSON Formatter</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function decodeJWT(){var t=document.getElementById('ji').value.trim();var h=document.getElementById('jh');var p=document.getElementById('jp');var s=document.getElementById('js');var v=document.getElementById('jv');
+if(!t){h.textContent='';p.textContent='';s.textContent='';v.textContent='';return;}
+var parts=t.split('.');if(parts.length!==3){h.textContent='Invalid JWT format';h.className='output-box error';p.textContent='';s.textContent='';v.textContent='';return;}
+try{var hd=JSON.parse(atob(parts[0]));h.textContent=JSON.stringify(hd,null,2);h.className='output-box';
+var pd=JSON.parse(atob(parts[1]));p.textContent=JSON.stringify(pd,null,2);p.className='output-box';
+var si=parts[2];s.textContent=si;
+var exp=pd.exp;if(exp){var now=Math.floor(Date.now()/1000);var diff=exp-now;if(diff>0)v.innerHTML='<span style="color:#16a34a;">Token valid — expires in '+Math.round(diff/3600)+' hours</span>';
+else v.innerHTML='<span style="color:#dc2626;">Token expired '+Math.round(-diff/3600)+' hours ago</span>';}
+else v.textContent='Token has no expiration (exp claim)';}catch(e){h.textContent='Error decoding';h.className='output-box error';p.textContent='';s.textContent='';v.textContent='';}}
+</script></body></html>
