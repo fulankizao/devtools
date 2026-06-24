@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL Parser — Free Online DevTool</title><meta name="description" content="Parse any URL and see its components: protocol, host, path, query parameters, fragment.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/url-parser.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"URL Parser","url":"https://fulankizao.github.io/devtools/url-parser.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>URL Parser</h1><p class="subtitle">Parse any URL and see its components broken down.</p>
+<div class="tool-box"><label for="ui">URL</label><input type="text" id="ui" placeholder="https://example.com/path?query=value#fragment" oninput="pu()" style="font-family:var(--mono);">
+<div class="tool-actions"><button class="btn btn-primary" onclick="pu()">Parse</button></div></div>
+<div class="tool-box"><div id="uo" class="output-box" style="min-height:200px;font-size:0.85rem;">Enter a URL to parse its components.</div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="url-encode.html">URL Encode</a><a href="base64.html">Base64</a><a href="html-encode.html">HTML Encode</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+function pu(){var u=document.getElementById('ui').value.trim();var o=document.getElementById('uo');
+if(!u){o.innerHTML='Enter a URL to parse its components.';return;}
+try{var p=new URL(u);var h='<strong>Full URL:</strong> '+p.href+'<br><strong>Protocol:</strong> '+p.protocol+'<br><strong>Hostname:</strong> '+p.hostname+'<br><strong>Port:</strong> '+(p.port||'default')+'<br><strong>Path:</strong> '+p.pathname+'<br>';
+if(p.search){h+='<strong>Query String:</strong> '+p.search+'<br><strong>Parameters:</strong><br>';new URLSearchParams(p.search).forEach(function(v,k){h+='  '+k+' = "'+v+'"<br>';});}
+if(p.hash)h+='<strong>Fragment:</strong> '+p.hash+'<br>';h+='<strong>Origin:</strong> '+p.origin;
+o.innerHTML=h;o.className='output-box';}catch(e){o.innerHTML='<span style="color:#dc2626;">Invalid URL: '+e.message+'</span>';o.className='output-box';}}
+</script></body></html>

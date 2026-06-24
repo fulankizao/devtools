@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base32 Encoder / Decoder — Free Online DevTool</title><meta name="description" content="Encode text to Base32 and decode Base32 back to text. Base32 is used in TOTP tokens, DNSSEC, and cryptographic applications.">
+<link rel="canonical" href="https://fulankizao.github.io/devtools/base32.html"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Base32 Encoder/Decoder","url":"https://fulankizao.github.io/devtools/base32.html","applicationCategory":"DeveloperApplication"}</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>"></head>
+<body><header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+<div class="tool-page"><h1>Base32 Encoder / Decoder</h1><p class="subtitle">Encode text to Base32 (RFC 4648) and decode Base32 back to readable text. No upload required.</p>
+<div class="tool-box"><div class="options-row"><label>Mode: <select id="m" onchange="c()" style="padding:4px 8px;border:1px solid var(--border);border-radius:4px;"><option value="encode">Encode to Base32</option><option value="decode">Decode from Base32</option></select></label></div></div>
+<div class="tool-box"><label for="i">Input</label><textarea id="i" class="code-input" placeholder="Enter text to encode or decode..."></textarea>
+<div class="tool-actions"><button class="btn btn-primary" onclick="conv()">Convert</button><button class="btn btn-danger" onclick="c()">Clear</button></div>
+<label>Output</label><div id="o" class="output-box" style="font-size:0.8rem;word-break:break-all;">Waiting for input...</div>
+<div class="tool-actions"><button class="btn btn-sm" onclick="cp()">Copy</button></div></div>
+<div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+<a href="base64.html">Base64</a><a href="hex.html">HEX</a><a href="sha256.html">SHA256</a></div></div></div>
+<footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+<script>
+var B32='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+function conv(){var i=document.getElementById('i').value;var m=document.getElementById('m').value;var o=document.getElementById('o');
+if(!i.trim()){o.textContent='Please enter input.';o.className='output-box';return;}
+try{if(m==='encode'){var b=new TextEncoder().encode(i);var bi='';for(var x=0;x<b.length;x++)bi+=b[x].toString(2).padStart(8,'0');var r='';
+for(var x=0;x<bi.length;x+=5){var s=bi.slice(x,x+5).padEnd(5,'0');r+=B32[parseInt(s,2)];}o.textContent=r;o.className='output-box';}
+else{var u=i.replace(/=/g,'').toUpperCase();var bi2='';for(var x=0;x<u.length;x++){var idx=B32.indexOf(u[x]);if(idx<0)throw new Error('Invalid Base32 char');bi2+=idx.toString(2).padStart(5,'0');}
+var b2=[];for(var x=0;x<bi2.length;x+=8){var c=bi2.slice(x,x+8);if(c.length==8)b2.push(parseInt(c,2));}
+o.textContent=new TextDecoder().decode(new Uint8Array(b2));o.className='output-box';}}catch(e){o.textContent='Error: '+e.message;o.className='output-box error';}}
+function c(){document.getElementById('i').value='';document.getElementById('o').textContent='Waiting for input...';document.getElementById('o').className='output-box';}
+function cp(){var t=document.getElementById('o').textContent;if(!t||t=='Waiting for input...')return;navigator.clipboard.writeText(t);}
+</script></body></html>
