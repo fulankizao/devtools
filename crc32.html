@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRC32 Checksum Generator — Free Online DevTool</title>
+  <meta name="description" content="Generate CRC32 checksum for text data. Cyclic Redundancy Check (CRC32) for data integrity verification.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/crc32.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"CRC32 Checksum Generator","url":"https://fulankizao.github.io/devtools/crc32.html","applicationCategory":"DeveloperApplication"}</script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+  <div class="tool-page">
+    <h1>CRC32 Checksum Generator</h1>
+    <p class="subtitle">Generate CRC32 checksum for text data. CRC32 is used for data integrity verification in networking and storage.</p>
+    <div class="tool-box">
+      <label for="hash-input">Input Text</label>
+      <textarea id="hash-input" class="code-input" placeholder="Enter text to checksum..."></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="generateCRC()">Generate CRC32</button>
+        <button class="btn btn-danger" onclick="clearCRC()">Clear</button>
+      </div>
+      <label>CRC32 Checksum</label>
+      <div id="hash-output" class="output-box" style="font-size:0.8rem;">Enter text to generate checksum...</div>
+      <div class="tool-actions"><button class="btn btn-sm" onclick="copyCRC()">Copy</button></div>
+    </div>
+    <div class="tool-box"><h3 style="font-size:1rem;margin-bottom:8px;">About CRC32</h3><p style="font-size:0.875rem;color:var(--text-muted);">CRC32 (Cyclic Redundancy Check 32-bit) is a fast, non-cryptographic checksum used for error detection in network packets, file archives (ZIP, GZIP), and storage systems. It is NOT a cryptographic hash — do not use CRC32 for security purposes.</p></div>
+    <div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+      <a href="sha256.html">SHA256</a><a href="sha1.html">SHA1</a><a href="md5.html">MD5</a><a href="blake2b.html">BLAKE2b</a>
+    </div></div>
+  </div>
+  <footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+  <script>
+  var CRC_TABLE=null;
+  function makeCRCTable(){var t=[];for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++){c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);}t[n]=c;}return t;}
+  function crc32(str){var t=makeCRCTable();var crc=0xFFFFFFFF;for(var i=0;i<str.length;i++){crc=t[(crc^str.charCodeAt(i))&0xFF]^(crc>>>8);}return(crc^0xFFFFFFFF)>>>0;}
+  function generateCRC(){var input=document.getElementById('hash-input').value;if(!input.trim()){document.getElementById('hash-output').textContent='Enter text...';return;}
+    var hash=('00000000'+crc32(input).toString(16)).slice(-8).toUpperCase();document.getElementById('hash-output').textContent='0x'+hash;}
+  function clearCRC(){document.getElementById('hash-input').value='';document.getElementById('hash-output').textContent='Enter text to generate checksum...';}
+  function copyCRC(){var t=document.getElementById('hash-output').textContent;if(!t||t.startsWith('Enter'))return;navigator.clipboard.writeText(t);}
+  </script>
+</body>
+</html>

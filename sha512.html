@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHA512 Hash Generator — Free Online DevTool</title>
+  <meta name="description" content="Generate SHA-512 hash for text data. SHA-512 produces a 128-character hexadecimal string.">
+  <link rel="canonical" href="https://fulankizao.github.io/devtools/sha512.html">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SHA512 Hash Generator","url":"https://fulankizao.github.io/devtools/sha512.html","applicationCategory":"DeveloperApplication"}</script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
+  <div class="tool-page">
+    <h1>SHA512 Hash Generator</h1>
+    <p class="subtitle">Generate SHA-512 hash for text data. SHA-512 produces a 128-character hexadecimal string.</p>
+    <div class="tool-box">
+      <label for="hash-input">Input Text</label>
+      <textarea id="hash-input" class="code-input" placeholder="Enter text to hash..."></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="generateHash()">Generate SHA512 Hash Generator</button>
+        <button class="btn btn-danger" onclick="clearHash()">Clear</button>
+      </div>
+      <label>Hash Output</label>
+      <div id="hash-output" class="output-box" style="font-size:0.8rem;">Enter text to generate hash...</div>
+      <div class="tool-actions">
+        <button class="btn btn-sm" onclick="copyHash()">Copy Hash</button>
+      </div>
+    </div>
+    <div class="tool-box">
+      <h3 style="font-size:1rem;margin-bottom:8px;">About SHA512 Hash Generator</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);">SHA-512 is the strongest SHA-2 variant, producing a 512-bit (128 hex char) hash. It is used in high-security environments including blockchain, digital signatures, and compliance-driven applications.</p>
+    </div>
+    <div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
+      <a href="sha256.html">SHA256</a><a href="sha384.html">SHA384</a><a href="sha1.html">SHA1</a><a href="md5.html">MD5</a>
+    </div></div>
+  </div>
+  <footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
+  <script>
+  async function generateHash() {
+    const input = document.getElementById('hash-input').value;
+    const output = document.getElementById('hash-output');
+    if (!input.trim()) { output.textContent = 'Enter text to generate hash...'; return; }
+    const enc = new TextEncoder();
+    const data = enc.encode(input);
+    const hash = await crypto.subtle.digest('SHA-512', data);
+    const hex = Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    output.textContent = hex;
+  }
+  function clearHash() { document.getElementById('hash-input').value = ''; document.getElementById('hash-output').textContent = 'Enter text to generate hash...'; }
+  function copyHash() { const t = document.getElementById('hash-output').textContent; if (!t || t.startsWith('Enter')) return; navigator.clipboard.writeText(t).then(() => { const b = document.querySelector('.btn-sm'); const o = b.textContent; b.textContent = 'Copied!'; setTimeout(() => { b.textContent = o; }, 1500); }); }
+  </script>
+</body>
+</html>
