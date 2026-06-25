@@ -28,276 +28,311 @@
     </div>
   </header>
 
-  <section class="hero">
+    <section class="hero">
     <h1>Free Online Developer Tools</h1>
-    <p>Fast, private, browser-side tools for developers. No files uploaded, no tracking, no ads.</p>
+    <p>Fast, private, browser-side tools for developers. No files uploaded, no tracking.</p>
   </section>
 
+  <div class="category-nav" style="max-width:960px;margin:0 auto 24px;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px;font-size:0.85rem;">
+    <a href="#hash-and-checksum" style="padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--accent);text-decoration:none;font-weight:500;">Hash &amp; Checksum</a>
+    <a href="#encoding-and-decoding" style="padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--accent);text-decoration:none;font-weight:500;">Encoding &amp; Decoding</a>
+    <a href="#formatters" style="padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--accent);text-decoration:none;font-weight:500;">Formatters</a>
+    <a href="#generators" style="padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--accent);text-decoration:none;font-weight:500;">Generators</a>
+    <a href="#converters" style="padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--accent);text-decoration:none;font-weight:500;">Converters</a>
+    <a href="#text-and-code" style="padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--accent);text-decoration:none;font-weight:500;">Text &amp; Code</a>
+    <a href="#web-and-reference" style="padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--accent);text-decoration:none;font-weight:500;">Web &amp; Reference</a>
+  </div>
+  <section class="container" style="margin-bottom:12px;">
+    <h2 id="hash-and-checksum" style="font-size:1.1rem;font-weight:700;margin:0 0 8px;padding:0 20px;">Hash &amp; Checksum</h2>
+  </section>
   <div class="tool-grid">
-    <a href="json-formatter.html" class="tool-card">
-      <span class="icon">{ }</span>
-      <h3>JSON Formatter &amp; Validator</h3>
-      <p>Format, validate, beautify, and minify JSON data with error detection and syntax highlighting.</p>
-    </a>
-    <a href="base64.html" class="tool-card">
-      <span class="icon">B64</span>
-      <h3>Base64 Encoder / Decoder</h3>
-      <p>Encode text and files to Base64. Decode Base64 back to readable text. Supports all text encodings.</p>
-    </a>
-    <a href="regex-tester.html" class="tool-card">
-      <span class="icon">.*</span>
-      <h3>Regex Tester</h3>
-      <p>Test regular expressions in real-time. Supports flags, multi-line matching, and replace operations.</p>
-    </a>
-    <a href="timestamp.html" class="tool-card">
-      <span class="icon">⏱</span>
-      <h3>Timestamp Converter</h3>
-      <p>Convert Unix timestamps to human-readable dates and vice versa. Supports seconds and milliseconds.</p>
-    </a>
-    <a href="uuid.html" class="tool-card">
-      <span class="icon">#ID</span>
-      <h3>UUID Generator</h3>
-      <p>Generate random UUIDs (v4, v7) in bulk. Copy to clipboard with one click.</p>
-    </a>
-  
     <a href="sha256.html" class="tool-card">
       <span class="icon">#</span>
       <h3>SHA256 Hash Generator</h3>
-      <p>Generate SHA-256 hashes for text. Uses Web Crypto API for secure computation.</p>
+      <p>Generate SHA-256 hashes.</p>
     </a>
-    <a href="md5.html" class="tool-card">
-      <span class="icon">#</span>
-      <h3>MD5 Hash Generator</h3>
-      <p>Generate MD5 hashes for text. Supports UTF-8 characters.</p>
-    </a>
-    <a href="url-encode.html" class="tool-card">
-      <span class="icon">URL</span>
-      <h3>URL Encoder / Decoder</h3>
-      <p>Encode text for URL parameters and decode percent-encoded URLs.</p>
-    </a>
-    <a href="hex.html" class="tool-card">
-      <span class="icon">0x</span>
-      <h3>HEX Encoder / Decoder</h3>
-      <p>Convert text to hexadecimal and decode hex back to readable text.</p>
-    </a>
-
-    <a href="color-converter.html" class="tool-card">
-      <span class="icon">🎨</span>
-      <h3>Color Converter</h3>
-      <p>Convert between HEX, RGB, and HSL color formats. Pick colors visually.</p>
-    </a>
-    <a href="word-counter.html" class="tool-card">
-      <span class="icon">ABC</span>
-      <h3>Word Counter</h3>
-      <p>Count words, characters, sentences, paragraphs, and reading time.</p>
-    </a>
-    <a href="csv-json.html" class="tool-card">
-      <span class="icon">CSV</span>
-      <h3>CSV ↔ JSON Converter</h3>
-      <p>Convert CSV to JSON and JSON to CSV. Supports custom delimiters.</p>
-    </a>
-
-  
     <a href="sha1.html" class="tool-card">
       <span class="icon">#</span>
       <h3>SHA1 Hash Generator</h3>
-      <p>Generate SHA-1 hashes. 40-character hex output. Uses Web Crypto API.</p>
+      <p>Generate SHA-1 hashes.</p>
     </a>
     <a href="sha384.html" class="tool-card">
       <span class="icon">#</span>
       <h3>SHA384 Hash Generator</h3>
-      <p>Generate SHA-384 hashes. 96-character hex output.</p>
+      <p>Generate SHA-384 hashes.</p>
     </a>
     <a href="sha512.html" class="tool-card">
       <span class="icon">#</span>
       <h3>SHA512 Hash Generator</h3>
-      <p>Generate SHA-512 hashes. 128-character hex output.</p>
+      <p>Generate SHA-512 hashes.</p>
+    </a>
+    <a href="sha224.html" class="tool-card">
+      <span class="icon">#</span>
+      <h3>SHA224 Hash Generator</h3>
+      <p>Generate SHA-224 hashes.</p>
     </a>
     <a href="sha3-256.html" class="tool-card">
       <span class="icon">#</span>
-      <h3>SHA3-256 Hash Generator</h3>
-      <p>Generate SHA3-256 hashes. NIST FIPS 202 standard.</p>
+      <h3>SHA3-256 Hash</h3>
+      <p>SHA3-256 style hash output.</p>
+    </a>
+    <a href="sha3-512.html" class="tool-card">
+      <span class="icon">#</span>
+      <h3>SHA3-512 Hash</h3>
+      <p>SHA3-512 style hash output.</p>
+    </a>
+    <a href="md5.html" class="tool-card">
+      <span class="icon">#</span>
+      <h3>MD5 Hash Generator</h3>
+      <p>Generate MD5 hashes.</p>
     </a>
     <a href="crc32.html" class="tool-card">
       <span class="icon">#</span>
       <h3>CRC32 Checksum</h3>
-      <p>Generate CRC32 checksums for data integrity verification.</p>
+      <p>Generate CRC32 checksums.</p>
     </a>
     <a href="blake2b.html" class="tool-card">
       <span class="icon">#</span>
-      <h3>BLAKE2b Hash Generator</h3>
-      <p>Generate BLAKE2b hashes. Fast cryptographic hash for 64-bit platforms.</p>
-    </a>
-
-  
-    <a href="sha3-512.html" class="tool-card">
-      <span class="icon">#</span>
-      <h3>SHA3-512 Hash Generator</h3>
-      <p>Generate SHA3-512 hashes. 128-character hex output. NIST FIPS 202.</p>
-    </a>
-    <a href="case-converter.html" class="tool-card">
-      <span class="icon">Aa</span>
-      <h3>Case Converter</h3>
-      <p>Convert between camelCase, snake_case, kebab-case, PascalCase and more.</p>
-    </a>
-    <a href="number-base.html" class="tool-card">
-      <span class="icon">0x</span>
-      <h3>Number Base Converter</h3>
-      <p>Convert numbers between binary, octal, decimal, and hexadecimal.</p>
-    </a>
-
-  
-    <a href="sha224.html" class="tool-card">
-      <span class="icon">#</span>
-      <h3>SHA224 Hash Generator</h3>
-      <p>Generate SHA-224 hashes. 56-character hex output. SHA-2 family.</p>
+      <h3>BLAKE2b Hash</h3>
+      <p>BLAKE2b style hash output.</p>
     </a>
     <a href="ripemd-160.html" class="tool-card">
       <span class="icon">#</span>
-      <h3>RIPEMD-160 Hash Generator</h3>
-      <p>Generate RIPEMD-160 hashes. Used in Bitcoin address generation.</p>
+      <h3>RIPEMD-160 Hash</h3>
+      <p>RIPEMD-160 style hash output.</p>
     </a>
-    <a href="password-generator.html" class="tool-card">
-      <span class="icon">🔐</span>
-      <h3>Secure Password Generator</h3>
-      <p>Generate strong random passwords with custom length and character types.</p>
+    <a href="sha256-file.html" class="tool-card">
+      <span class="icon">📁</span>
+      <h3>SHA256 File</h3>
+      <p>SHA256 hash for files.</p>
     </a>
-    <a href="qr-code.html" class="tool-card">
-      <span class="icon">◻</span>
-      <h3>QR Code Generator</h3>
-      <p>Create scannable QR codes from text and URLs. Download as PNG.</p>
+    <a href="sha1-file.html" class="tool-card">
+      <span class="icon">📁</span>
+      <h3>SHA1 File</h3>
+      <p>SHA1 hash for files.</p>
     </a>
-    <a href="lorem-ipsum.html" class="tool-card">
-      <span class="icon">¶</span>
-      <h3>Lorem Ipsum Generator</h3>
-      <p>Generate placeholder text by paragraphs, words, or bytes.</p>
+    <a href="sha512-file.html" class="tool-card">
+      <span class="icon">📁</span>
+      <h3>SHA512 File</h3>
+      <p>SHA512 hash for files.</p>
     </a>
-
-  
-    <a href="xml-formatter.html" class="tool-card">
-      <span class="icon">&lt;/&gt;</span>
-      <h3>XML Formatter</h3>
-      <p>Format, beautify, and minify XML data with error detection.</p>
+    <a href="md5-file.html" class="tool-card">
+      <span class="icon">📁</span>
+      <h3>MD5 File</h3>
+      <p>MD5 hash for files.</p>
     </a>
-    <a href="text-diff.html" class="tool-card">
-      <span class="icon">∆</span>
-      <h3>Text Diff Checker</h3>
-      <p>Compare two texts side by side and highlight differences.</p>
+  </div>
+  <section class="container" style="margin-bottom:12px;">
+    <h2 id="encoding-and-decoding" style="font-size:1.1rem;font-weight:700;margin:0 0 8px;padding:0 20px;">Encoding &amp; Decoding</h2>
+  </section>
+  <div class="tool-grid">
+    <a href="base64.html" class="tool-card">
+      <span class="icon">B64</span>
+      <h3>Base64 Encode/Decode</h3>
+      <p>Encode/decode Base64 text.</p>
     </a>
-    <a href="json-yaml.html" class="tool-card">
-      <span class="icon">YML</span>
-      <h3>JSON ↔ YAML Converter</h3>
-      <p>Convert between JSON and YAML configuration formats.</p>
+    <a href="base32.html" class="tool-card">
+      <span class="icon">B32</span>
+      <h3>Base32 Encode/Decode</h3>
+      <p>Encode/decode Base32 text.</p>
     </a>
-
-  
-    <a href="markdown-preview.html" class="tool-card">
-      <span class="icon">MD</span>
-      <h3>Markdown Preview</h3>
-      <p>Write Markdown and see the rendered preview in real-time.</p>
+    <a href="url-encode.html" class="tool-card">
+      <span class="icon">URL</span>
+      <h3>URL Encode/Decode</h3>
+      <p>Encode/decode URL parameters.</p>
+    </a>
+    <a href="hex.html" class="tool-card">
+      <span class="icon">0x</span>
+      <h3>HEX Encode/Decode</h3>
+      <p>Convert text to/from hex.</p>
+    </a>
+    <a href="html-encode.html" class="tool-card">
+      <span class="icon"><></span>
+      <h3>HTML Entity Encode</h3>
+      <p>Escape HTML special chars.</p>
     </a>
     <a href="image-to-base64.html" class="tool-card">
       <span class="icon">🖼</span>
       <h3>Image to Base64</h3>
-      <p>Convert images to Base64 data URIs. Drag and drop support.</p>
+      <p>Convert images to data URIs.</p>
     </a>
-    <a href="html-preview.html" class="tool-card">
-      <span class="icon">&lt;/&gt;</span>
-      <h3>HTML Preview</h3>
-      <p>Write HTML and preview the rendered result instantly.</p>
+  </div>
+  <section class="container" style="margin-bottom:12px;">
+    <h2 id="formatters" style="font-size:1.1rem;font-weight:700;margin:0 0 8px;padding:0 20px;">Formatters</h2>
+  </section>
+  <div class="tool-grid">
+    <a href="json-formatter.html" class="tool-card">
+      <span class="icon">{}</span>
+      <h3>JSON Formatter</h3>
+      <p>Format, validate, minify JSON.</p>
     </a>
-
-  
+    <a href="xml-formatter.html" class="tool-card">
+      <span class="icon"></></span>
+      <h3>XML Formatter</h3>
+      <p>Format, validate, minify XML.</p>
+    </a>
     <a href="sql-formatter.html" class="tool-card">
       <span class="icon">SQL</span>
       <h3>SQL Formatter</h3>
-      <p>Format and beautify SQL queries for readability.</p>
+      <p>Format SQL queries.</p>
     </a>
     <a href="css-minifier.html" class="tool-card">
       <span class="icon">CSS</span>
       <h3>CSS Minifier</h3>
-      <p>Minify and compress CSS stylesheets. See size reduction stats.</p>
+      <p>Minify and compress CSS.</p>
     </a>
     <a href="js-beautifier.html" class="tool-card">
       <span class="icon">JS</span>
       <h3>JS Beautifier</h3>
-      <p>Beautify and format JavaScript code. Minify mode included.</p>
+      <p>Beautify and format JS.</p>
     </a>
-
-  
-    <a href="sha256-file.html" class="tool-card">
-      <span class="icon">📁</span>
-      <h3>SHA256 File Hash</h3>
-      <p>Compute SHA256 hash for uploaded files. Drag and drop support.</p>
+  </div>
+  <section class="container" style="margin-bottom:12px;">
+    <h2 id="generators" style="font-size:1.1rem;font-weight:700;margin:0 0 8px;padding:0 20px;">Generators</h2>
+  </section>
+  <div class="tool-grid">
+    <a href="uuid.html" class="tool-card">
+      <span class="icon">#ID</span>
+      <h3>UUID Generator</h3>
+      <p>Generate UUIDs v4/v7.</p>
     </a>
-    <a href="sha1-file.html" class="tool-card">
-      <span class="icon">📁</span>
-      <h3>SHA1 File Hash</h3>
-      <p>Compute SHA1 hash for uploaded files.</p>
+    <a href="password-generator.html" class="tool-card">
+      <span class="icon">🔐</span>
+      <h3>Password Generator</h3>
+      <p>Strong random passwords.</p>
     </a>
-    <a href="sha512-file.html" class="tool-card">
-      <span class="icon">📁</span>
-      <h3>SHA512 File Hash</h3>
-      <p>Compute SHA512 hash for uploaded files.</p>
+    <a href="qr-code.html" class="tool-card">
+      <span class="icon">◻</span>
+      <h3>QR Code Generator</h3>
+      <p>Generate scannable QR codes.</p>
     </a>
-    <a href="md5-file.html" class="tool-card">
-      <span class="icon">📁</span>
-      <h3>MD5 File Hash</h3>
-      <p>Compute MD5 hash for uploaded files.</p>
+    <a href="lorem-ipsum.html" class="tool-card">
+      <span class="icon">¶</span>
+      <h3>Lorem Ipsum</h3>
+      <p>Generate placeholder text.</p>
     </a>
-    <a href="base32.html" class="tool-card">
-      <span class="icon">B32</span>
-      <h3>Base32 Encoder/Decoder</h3>
-      <p>Encode and decode Base32 text. Used in TOTP and DNSSEC.</p>
+    <a href="sha256.html" class="tool-card">
+      <span class="icon">#</span>
+      <h3>SHA256 Generator</h3>
+      <p>Generate SHA256 hashes.</p>
     </a>
-    <a href="url-parser.html" class="tool-card">
-      <span class="icon">🔗</span>
-      <h3>URL Parser</h3>
-      <p>Parse any URL into its components: protocol, host, path, query.</p>
+    <a href="md5.html" class="tool-card">
+      <span class="icon">#</span>
+      <h3>MD5 Generator</h3>
+      <p>Generate MD5 hashes.</p>
     </a>
-
-  
-    <a href="jwt-decoder.html" class="tool-card">
-      <span class="icon">JWT</span>
-      <h3>JWT Decoder</h3>
-      <p>Decode JSON Web Tokens. View header, payload, signature, and expiration.</p>
+  </div>
+  <section class="container" style="margin-bottom:12px;">
+    <h2 id="converters" style="font-size:1.1rem;font-weight:700;margin:0 0 8px;padding:0 20px;">Converters</h2>
+  </section>
+  <div class="tool-grid">
+    <a href="color-converter.html" class="tool-card">
+      <span class="icon">🎨</span>
+      <h3>Color Converter</h3>
+      <p>HEX ↔ RGB ↔ HSL.</p>
     </a>
-    <a href="cron-parser.html" class="tool-card">
-      <span class="icon">⏰</span>
-      <h3>Cron Parser</h3>
-      <p>Parse cron expressions and see what they mean in plain English.</p>
+    <a href="number-base.html" class="tool-card">
+      <span class="icon">0x</span>
+      <h3>Number Base Converter</h3>
+      <p>Bin/Oct/Dec/Hex.</p>
     </a>
-    <a href="http-status-codes.html" class="tool-card">
-      <span class="icon">HT</span>
-      <h3>HTTP Status Codes</h3>
-      <p>Complete HTTP status code reference. Searchable by code or name.</p>
+    <a href="csv-json.html" class="tool-card">
+      <span class="icon">CSV</span>
+      <h3>CSV ↔ JSON</h3>
+      <p>Convert between CSV and JSON.</p>
+    </a>
+    <a href="json-yaml.html" class="tool-card">
+      <span class="icon">YML</span>
+      <h3>JSON ↔ YAML</h3>
+      <p>Convert between JSON and YAML.</p>
+    </a>
+    <a href="timestamp.html" class="tool-card">
+      <span class="icon">⏱</span>
+      <h3>Timestamp Converter</h3>
+      <p>Unix time ↔ date.</p>
+    </a>
+    <a href="case-converter.html" class="tool-card">
+      <span class="icon">Aa</span>
+      <h3>Case Converter</h3>
+      <p>Convert text case styles.</p>
+    </a>
+  </div>
+  <section class="container" style="margin-bottom:12px;">
+    <h2 id="text-and-code" style="font-size:1.1rem;font-weight:700;margin:0 0 8px;padding:0 20px;">Text &amp; Code</h2>
+  </section>
+  <div class="tool-grid">
+    <a href="regex-tester.html" class="tool-card">
+      <span class="icon">.*</span>
+      <h3>Regex Tester</h3>
+      <p>Test regex in real-time.</p>
+    </a>
+    <a href="word-counter.html" class="tool-card">
+      <span class="icon">ABC</span>
+      <h3>Word Counter</h3>
+      <p>Count words and characters.</p>
+    </a>
+    <a href="text-diff.html" class="tool-card">
+      <span class="icon">∆</span>
+      <h3>Text Diff</h3>
+      <p>Compare two texts.</p>
+    </a>
+    <a href="text-shuffler.html" class="tool-card">
+      <span class="icon">🔀</span>
+      <h3>Text Shuffler</h3>
+      <p>Shuffle, sort, reverse text.</p>
     </a>
     <a href="json-path.html" class="tool-card">
       <span class="icon">⤷</span>
       <h3>JSON Path Tester</h3>
-      <p>Test JSONPath expressions against JSON data.</p>
+      <p>Query JSON with JSONPath.</p>
     </a>
-
-  
+    <a href="jwt-decoder.html" class="tool-card">
+      <span class="icon">JWT</span>
+      <h3>JWT Decoder</h3>
+      <p>Decode JWT tokens.</p>
+    </a>
+  </div>
+  <section class="container" style="margin-bottom:12px;">
+    <h2 id="web-and-reference" style="font-size:1.1rem;font-weight:700;margin:0 0 8px;padding:0 20px;">Web &amp; Reference</h2>
+  </section>
+  <div class="tool-grid">
+    <a href="html-preview.html" class="tool-card">
+      <span class="icon"></></span>
+      <h3>HTML Preview</h3>
+      <p>Live HTML sandbox.</p>
+    </a>
+    <a href="markdown-preview.html" class="tool-card">
+      <span class="icon">MD</span>
+      <h3>Markdown Preview</h3>
+      <p>Live Markdown render.</p>
+    </a>
+    <a href="url-parser.html" class="tool-card">
+      <span class="icon">🔗</span>
+      <h3>URL Parser</h3>
+      <p>Parse URL components.</p>
+    </a>
+    <a href="http-status-codes.html" class="tool-card">
+      <span class="icon">HT</span>
+      <h3>HTTP Status Codes</h3>
+      <p>Full status code reference.</p>
+    </a>
+    <a href="cron-parser.html" class="tool-card">
+      <span class="icon">⏰</span>
+      <h3>Cron Parser</h3>
+      <p>Read cron expressions.</p>
+    </a>
     <a href="ascii-table.html" class="tool-card">
       <span class="icon">🔤</span>
       <h3>ASCII Table</h3>
-      <p>Complete ASCII character reference with hex, binary, and HTML entity values.</p>
+      <p>Full ASCII reference.</p>
     </a>
     <a href="html-table-generator.html" class="tool-card">
       <span class="icon">⊞</span>
       <h3>HTML Table Generator</h3>
-      <p>Generate HTML tables from CSV data or dimensions. Preview and copy.</p>
+      <p>Generate HTML tables.</p>
     </a>
-    <a href="text-shuffler.html" class="tool-card">
-      <span class="icon">🔀</span>
-      <h3>Text Shuffler &amp; Sorter</h3>
-      <p>Shuffle, sort alphabetically, or reverse lines of text.</p>
-    </a>
-
   </div>
-
-  <footer class="site-footer">
+<footer class="site-footer">
     <div class="container">
       <p>&copy; 2026 DevTools · <a href="https://fulankizao.github.io/selfhost-guide/privacy.html">Privacy</a></p>
     </div>
