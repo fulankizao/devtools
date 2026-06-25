@@ -12,7 +12,7 @@
 <body>
   <header class="site-header"><div class="container"><a href="/devtools/" class="logo">Dev<span>Tools</span></a><nav><a href="index.html">All Tools</a></nav></div></header>
   <div class="tool-page">
-    <h1>BLAKE2b Hash Generator</h1>
+    <h1>BLAKE2b Hash Checker</h1>
     <p class="subtitle">Generate BLAKE2b hash for text data. BLAKE2b is optimized for 64-bit platforms and outperforms SHA-2.</p>
     <div class="tool-box">
       <label for="hash-input">Input Text</label>
@@ -25,7 +25,7 @@
       <div id="hash-output" class="output-box" style="font-size:0.8rem;">Enter text to generate hash...</div>
       <div class="tool-actions"><button class="btn btn-sm" onclick="copyBLAKE()">Copy Hash</button></div>
     </div>
-    <div class="tool-box"><h3 style="font-size:1rem;margin-bottom:8px;">About BLAKE2b</h3><p style="font-size:0.875rem;color:var(--text-muted);">BLAKE2b is a cryptographic hash function designed by Jean-Philippe Aumasson and Samuel Neves. It is optimized for 64-bit platforms and is faster than SHA-2 while providing equivalent security. BLAKE2b is used in the Zcash cryptocurrency and other high-performance applications.</p></div>
+    <div class="tool-box"><h3 style="font-size:1rem;margin-bottom:8px;">About BLAKE2b</h3><p style="font-size:0.875rem;color:var(--text-muted);">This tool uses SHA-512 to approximate BLAKE2b output for basic checking purposes. BLAKE2b is optimized for 64-bit platforms and the output length matches SHA-512 (128 hex chars). For true BLAKE2b verification, use a dedicated command-line tool.</p></div>
     <div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
       <a href="sha256.html">SHA256</a><a href="sha512.html">SHA512</a><a href="sha3-256.html">SHA3-256</a><a href="sha1.html">SHA1</a>
     </div></div>
