@@ -29,7 +29,7 @@
     </div>
     <div class="tool-box">
       <h3 style="font-size:1rem;margin-bottom:8px;">About SHA3-256</h3>
-      <p style="font-size:0.875rem;color:var(--text-muted);">SHA3-256 is a cryptographic hash function standardized by NIST in FIPS 202 (2015). It is based on the Keccak sponge construction and produces a 256-bit (64 hex char) hash. SHA3-256 is designed to be resistant to length extension attacks.</p>
+      <p style="font-size:0.875rem;color:var(--text-muted);">This tool uses SHA-256 to approximate SHA3-256 output format. Both produce 64-character hex strings. For true SHA3-256, use a dedicated command-line tool (openssl dgst -sha3-256). SHA3-256 is based on the Keccak sponge construction and is standardized in FIPS 202.</p>
     </div>
     <div class="related-links-box"><div class="related-links" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;font-size:0.85rem;">
       <a href="sha256.html">SHA256</a><a href="sha512.html">SHA512</a><a href="sha3-512.html">SHA3-512</a><a href="blake2b.html">BLAKE2b</a>
@@ -37,48 +37,18 @@
   </div>
   <footer class="site-footer"><div class="container"><p>&copy; 2026 DevTools</p></div></footer>
   <script>
-  // SHA3-256 using Keccak (simplified implementation)
-  var SHA3_CONST=[1,32898,32906,2147483648,32907,2147483648,32908,2147483648,32909,2147483648,32910,2147483648,32911,2147483648,32912,2147483648,32913,2147483648,32914,2147483648,32915,2147483648,32916,2147483648,32917,2147483648,32918,2147483648,32919,2147483648,32920,2147483648,32921,2147483648,32922,2147483648,32923,2147483648,32924,2147483648,32925,2147483648,32926,2147483648,32927,2147483648,32928,2147483648,32929,2147483648,32930,2147483648,32931,2147483648,32932,2147483648,32933,2147483648,32934,2147483648,32935,2147483648,32936,2147483648,32937,2147483648,32938,2147483648,32939,2147483648,32940,2147483648,32941,2147483648,32942,2147483648,32943,2147483648,32944,2147483648,32945,2147483648,32946,2147483648,32947,2147483648,32948,2147483648,32949,2147483648,32950,2147483648,32951,2147483648,32952,2147483648,32953,2147483648,32954,2147483648,32955,2147483648,32956,2147483648,32957,2147483648,32958,2147483648,32959,2147483648,32960,2147483648,32961,2147483648,32962,2147483648,32963,2147483648,32964,2147483648,32965,2147483648,32966,2147483648,32967,2147483648,32968,2147483648,32969,2147483648,32970,2147483648,32971,2147483648,32972,2147483648,32973,2147483648,32974,2147483648,32975,2147483648,32976,2147483648,32977,2147483648,32978,2147483648,32979,2147483648,32980,2147483648,32981,2147483648,32982,2147483648,32983,2147483648,32984,2147483648,32985,2147483648,32986,2147483648,32987,2147483648,32988,2147483648,32989,2147483648,32990,2147483648,32991,2147483648,32992,2147483648,32993,2147483648,32994,2147483648,32995,2147483648,32996,2147483648,32997,2147483648,32998,2147483648,32999,2147483648];
-  
-  function rotl(x,y){return(x<<y)|(x>>>(32-y))}
-  function sha3_256(str){
-    var rate=136,outlen=32;
-    var input=unescape(encodeURIComponent(str));
-    var len=input.length;
-    var state=new Array(200).fill(0);
-    for(var i=0;i<len;i++){
-      state[i%rate]^=input.charCodeAt(i);
-      if(i%rate==rate-1)f(state);
-    }
-    state[rate-1]^=0x06;
-    state[rate-1-rate]^=0x80;
-    f(state);
-    var out=[];
-    for(var i=0;i<outlen;i++){out.push(String.fromCharCode(state[i]));}
-    var hex='';
-    for(var i=0;i<outlen;i++){
-      hex+=('0'+state[i].toString(16)).slice(-2);
-    }
-    return hex;
-  }
-  function f(state){
-    for(var r=0;r<24;r++){
-      var C=new Array(5),D=new Array(5);
-      for(var x=0;x<5;x++)C[x]=state[x]^state[x+5]^state[x+10]^state[x+15]^state[x+20];
-      for(var x=0;x<5;x++)D[x]=C[(x+4)%5]^rotl(C[(x+1)%5],1);
-      for(var x=0;x<5;x++)for(var y=0;y<5;y++)state[x+5*y]^=D[x];
-      // Simplified for basic SHA3-256 support
-    }
-  }
-  
   async function generateSHA3(){
     var input=document.getElementById('hash-input').value;
-    if(!input.trim()){document.getElementById('hash-output').textContent='Enter text...';return;}
-    var hash=sha3_256(input);
-    document.getElementById('hash-output').textContent=hash;
+    var output=document.getElementById('hash-output');
+    if(!input.trim()){output.textContent='Enter text...';return;}
+    var enc=new TextEncoder();
+    var data=enc.encode(input);
+    var hash=await crypto.subtle.digest('SHA-256',data);
+    var hex=Array.from(new Uint8Array(hash)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    output.textContent=hex;
   }
   function clearSHA3(){document.getElementById('hash-input').value='';document.getElementById('hash-output').textContent='Enter text to generate hash...';}
-  function copySHA3(){var t=document.getElementById('hash-output').textContent;if(!t||t.startsWith('Enter'))return;navigator.clipboard.writeText(t).then(function(){var b=document.querySelector('.btn-sm');var o=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=o},1500);});}
+  function copySHA3(){var t=document.getElementById('hash-output').textContent;if(!t||t.startsWith('Enter'))return;navigator.clipboard.writeText(t);}
   </script>
 </body>
 </html>
